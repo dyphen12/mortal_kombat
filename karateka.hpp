@@ -262,6 +262,7 @@ public:
         int random_number = distribution(generator);
 
         if(random_number == 2){
+            //this->setKaratekaStateMovement("block");
             return "block";
         } else {
             return "fail";

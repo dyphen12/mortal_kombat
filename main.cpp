@@ -306,11 +306,12 @@ int main(int argc, char** argv){
         SDL_RenderCopy(renderer, arenaTexture, NULL, &arenaRect);
 
 
+        SDL_Rect karatekaRect;
+        SDL_Rect karateka2Rect;
 
         // KARATEKA A // Keyboard Controlled
 
-        SDL_Rect karatekaRect;
-        SDL_Rect karateka2Rect;
+        
 
         isMKeyPressed = state[SDL_SCANCODE_M];
         isNKeyPressed = state[SDL_SCANCODE_N];
@@ -319,11 +320,7 @@ int main(int argc, char** argv){
 
             string result = A->punch("oi-zuki");
 
-            bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
-
-            if (areKaratekasColliding){
-                cout<<"Yuko!"<<endl;
-            }
+            
 
             //cout<<"Oi Zuki!"<<endl;
             // Define a rectangle to represent the position and size of the arena on the screen
@@ -331,6 +328,15 @@ int main(int argc, char** argv){
 
             // Render the texture to the screen
             SDL_RenderCopy(renderer, karatekaOiZukiTexture, NULL, &karatekaRect);
+
+            bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
+
+            //cout<<areKaratekasColliding<<endl;
+
+            if (areKaratekasColliding){
+                cout<<"Karatekas Are Colliding!"<<endl;
+                cout<<"Yuko!"<<endl;
+            }
             
         } else if (isNKeyPressed){
 

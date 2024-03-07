@@ -377,6 +377,7 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding){
+                
                 cout<<"Yuko!"<<endl;
             }
 
