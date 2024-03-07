@@ -1,11 +1,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
-#include <SDL2/SDL_keycode.h> // Include for keyboard input
+#include <SDL2/SDL_keycode.h> 
 #include "championship.hpp"
 
-#define SCREEN_WIDTH 1280 //640
-#define SCREEN_HEIGHT 720 //360
+#define SCREEN_WIDTH 1280 
+#define SCREEN_HEIGHT 720 
 
 #define ARENA_WIDTH 616
 #define ARENA_HEIGHT 616
@@ -41,7 +41,6 @@ bool isMovingDown = false;
 bool isMKeyPressed = false;
 bool isNKeyPressed = false;
 bool isBKeyPressed = false;
-//int karatekaSpeed = 2; // Adjust movement speed
 
 int karatekaSpriteSizeW;
 int karatekaSpriteSizeH;
@@ -54,7 +53,7 @@ int main(int argc, char** argv){
         return 1;
     }
 
-    // Create window (replace "SLD test" with your desired title)
+    // Create window 
     SDL_Window* window = SDL_CreateWindow("Karate Championship Sim", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     if (!window) {
         printf("Error: Failed to open window\nSDL Error: '%s'\n", SDL_GetError());
@@ -86,31 +85,31 @@ int main(int argc, char** argv){
     SDL_Texture* arenaTexture = IMG_LoadTexture(renderer, "assets/Arena.png");
     if (!arenaTexture) {
         printf("Failed to load arena texture! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaTexture = IMG_LoadTexture(renderer, "assets/Karateka.png");
     if (!karatekaTexture) {
         printf("Failed to load karateka texture! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2Texture = IMG_LoadTexture(renderer, "assets/Karateka_var.png");
     if (!karateka2Texture) {
         printf("Failed to load karateka texture! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* treeTexture = IMG_LoadTexture(renderer, "assets/tree.png");
     if (!treeTexture) {
         printf("Failed to load tree! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* grassTexture = IMG_LoadTexture(renderer, "assets/grass.png");
     if (!grassTexture) {
         printf("Failed to load grass! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     // KARATEKA 1 Textures
@@ -118,37 +117,37 @@ int main(int argc, char** argv){
     SDL_Texture* karatekaBasicStanceTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_basic_stance.png");
     if (!karatekaBasicStanceTexture) {
         printf("Failed to load karateka basic stance sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaOiZukiTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_oi_zuki.png");
     if (!karatekaOiZukiTexture) {
         printf("Failed to load karateka oi_zuki sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaGyakuZukiTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_gyaku_zuki.png");
     if (!karatekaGyakuZukiTexture) {
         printf("Failed to load karateka oi_zuki sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaAgeUkeTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_age_uke.png");
     if (!karatekaAgeUkeTexture) {
         printf("Failed to load karateka age uke sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaYokoGeriTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_yoko_geri.png");
     if (!karatekaYokoGeriTexture) {
         printf("Failed to load karateka yokogeri sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karatekaMaeGeriTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka_mae_geri.png");
     if (!karatekaMaeGeriTexture) {
         printf("Failed to load karateka mae geri sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     // KARATEKA 2 Textures
@@ -156,37 +155,37 @@ int main(int argc, char** argv){
     SDL_Texture* karateka2BasicStanceTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_basic_stance.png");
     if (!karatekaBasicStanceTexture) {
         printf("Failed to load karateka basic stance sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2OiZukiTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_oi_zuki.png");
     if (!karatekaOiZukiTexture) {
         printf("Failed to load karateka oi_zuki sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2GyakuZukiTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_gyaku_zuki.png");
     if (!karatekaGyakuZukiTexture) {
         printf("Failed to load karateka oi_zuki sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2AgeUkeTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_age_uke.png");
     if (!karateka2AgeUkeTexture) {
         printf("Failed to load karateka age uke sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2YokoGeriTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_yoko_geri.png");
     if (!karateka2YokoGeriTexture) {
         printf("Failed to load karateka2 yoko geri sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     SDL_Texture* karateka2MaeGeriTexture = IMG_LoadTexture(renderer, "assets/karateka_sprites/Karateka2_mae_geri.png");
     if (!karateka2MaeGeriTexture) {
         printf("Failed to load karateka mae geri sprite! SDL_image Error: %s\n", IMG_GetError());
-        return 1; // Handle error here
+        return 1; 
     }
 
     // Get screen dimensions
@@ -222,18 +221,23 @@ int main(int argc, char** argv){
     cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
     int q = A->getPositionVector()->x;
 
+    A->setArenaSide("left");
+    cout<<"Arena side = "<<A->getArenaSide()<<endl;
+
     // Setting Karateka B
 
-    Shotokan* B = new Shotokan(3); // Create new karateka shotokan style
+    Shotokan* B = new Shotokan(3); 
 
-    B->setName("Shara Hubrich"); // Set Karateka Name
+    B->setName("Shara Hubrich"); 
 
-    // Loading Starting Arena Position on the Karateka
-    PositionVector* posvk2 = new PositionVector(); // Create new PositionVector;
-    posvk2->loadPosition(karateka2CenterX+95, karateka2CenterY); //Load Karateka1 position in the arena into the PositionVector
-    B->setPosition(posvk2); // Set PositionVector into Karateka
-    PositionVector* postempB = B->getPositionVector(); // PositionVector Test
-    cout<<"Position of Karateka B:  X="<<postempB->x<<" Y="<<postempB->y<<endl; // Print Karateka 1 starting position on the arena
+    PositionVector* posvk2 = new PositionVector(); 
+    posvk2->loadPosition(karateka2CenterX+95, karateka2CenterY); 
+    B->setPosition(posvk2); 
+    PositionVector* postempB = B->getPositionVector(); 
+    cout<<"Position of Karateka B:  X="<<postempB->x<<" Y="<<postempB->y<<endl; 
+    
+    B->setArenaSide("right");
+    cout<<"Arena side = "<<B->getArenaSide()<<endl;
 
 
     // Setting Match
@@ -261,7 +265,6 @@ int main(int argc, char** argv){
 
         // GAME LOGIC
 
-
         // MANUAL CONTROLLERS
         // Handle player input
         const Uint8* state = SDL_GetKeyboardState(NULL); // Get keyboard state
@@ -283,6 +286,16 @@ int main(int argc, char** argv){
         } else if (isMovingDown && !isMovingUp) {
             karatekaCenterY += 2;
         }
+
+        posvk1->x = karatekaCenterX-90;
+        posvk1->y = karatekaCenterY;
+
+        A->setPosition(posvk1);
+        
+
+        
+        //cout<<"Delta X = "<<deltaX<<" Delta Y = "<<deltaY<<endl;
+        //cout<<"Angle In Degrees = "<<angleInDegrees<<endl;
 
 
         // RENDERING TASKS
@@ -312,10 +325,7 @@ int main(int argc, char** argv){
         // KARATEKA A // Keyboard Controlled
 
         State* karateka1State = A->getKaratekaState();
-        
-        //cout<<A->getKaratekaState()->movement<<endl;
 
-        
 
         isMKeyPressed = state[SDL_SCANCODE_M];
         isNKeyPressed = state[SDL_SCANCODE_N];
@@ -324,16 +334,15 @@ int main(int argc, char** argv){
 
             string result = A->punch("oi-zuki");
 
-            //cout<<"Oi Zuki!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; // Adjust values as needed
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karatekaOiZukiTexture, NULL, &karatekaRect);
+            //SDL_RenderCopy(renderer, karatekaOiZukiTexture, NULL, &karatekaRect);
+
+            SDL_RenderCopyEx(renderer, karatekaOiZukiTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
+
+            
 
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
-
-            //cout<<areKaratekasColliding<<endl;
 
             if (areKaratekasColliding && B->getKaratekaState()->movement != "block"){
                 cout<<"Karatekas Are Colliding!"<<endl;
@@ -346,80 +355,80 @@ int main(int argc, char** argv){
 
             string result = A->manualkick("mae-geri");
 
-            //cout<<"Mae Geri!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; // Adjust values as needed
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karatekaMaeGeriTexture, NULL, &karatekaRect);
+            //SDL_RenderCopy(renderer, karatekaMaeGeriTexture, NULL, &karatekaRect);
+
+            SDL_RenderCopyEx(renderer, karatekaMaeGeriTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else if (isBKeyPressed){
 
             string result = A->block();
 
-            //cout<<"block!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; // Adjust values as needed
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect);
+            //SDL_RenderCopy(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect);
+
+            SDL_RenderCopyEx(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else {
 
             // Set KaratekaState
             karateka1State->movement = "stand-up";
 
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; // Adjust values as needed
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
+
+            // Before rendering the karateka:
+            SDL_RenderCopyEx(renderer, karatekaBasicStanceTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
 
             // Render the texture to the screen
-            SDL_RenderCopy(renderer, karatekaBasicStanceTexture, NULL, &karatekaRect);
+            //SDL_RenderCopy(renderer, karatekaBasicStanceTexture, NULL, &karatekaRect);
             
         }
         
 
         // KARATEKA 2 // Simulated
+
+        bool fuck = true;
         
 
         if (B->punch("oi-zuki") == "oi-zuki"){
 
-            //cout<<"Oi Zuki!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; // Adjust values as needed
+            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect);
+            //SDL_RenderCopy(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect);
+
+            SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else if (B->punch("gyaku-zuki") == "gyaku-zuki"){
 
-            //cout<<"Gyaku Zuki!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; // Adjust values as needed
+            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karateka2GyakuZukiTexture, NULL, &karateka2Rect);
+            //SDL_RenderCopy(renderer, karateka2GyakuZukiTexture, NULL, &karateka2Rect);
+
+            SDL_RenderCopyEx(renderer, karateka2GyakuZukiTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else if (B->block() == "block"){
 
             string result = B->block();
 
-            //cout<<"block!"<<endl;
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karatekaRect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; // Adjust values as needed
+            karatekaRect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
-            // Render the texture to the screen
-            SDL_RenderCopy(renderer, karateka2AgeUkeTexture, NULL, &karatekaRect);
+            //SDL_RenderCopy(renderer, karateka2AgeUkeTexture, NULL, &karatekaRect);
+
+            SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else {
-            // Define a rectangle to represent the position and size of the arena on the screen
-            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; // Adjust values as needed
+
+            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
             // Render the texture to the screen
-            SDL_RenderCopy(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect);
+            //SDL_RenderCopy(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect);
+
+            SDL_RenderCopyEx(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         }
         State* karateka2State = B->getKaratekaState();
-        //cout<<"Karateka B State Movement = "<<karateka2State->movement<<endl;
 
 
         // ALWAYS RENDER THE PRESENT

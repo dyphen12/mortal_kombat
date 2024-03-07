@@ -40,6 +40,7 @@ protected:
     PositionVector *posvec;
     int speed;
     State *karatekaState;
+    string arenaSide;
 
 public:
     Karateka(int i) { 
@@ -49,6 +50,7 @@ public:
         this->speed = 1;
         this->karatekaState = new State(); // Initialize karatekaState
         this->karatekaState->movement = "stand-up";
+        this->arenaSide = "Null";
     }
 
     int getID(){
@@ -181,6 +183,41 @@ public:
     return true;
     }
 
+    float getRotationAngle(){
+
+        if (this->arenaSide == "right"){
+
+            float deltaX =  this->getPositionVector()->x - this->opponent->getPositionVector()->x;
+            float deltaY =  this->getPositionVector()->y - this->opponent->getPositionVector()->y;
+            float angleInRadians = atan2f(deltaY, deltaX); // Calculate angle in radians
+
+        // Convert to degrees if needed:
+            float angleInDegrees = angleInRadians * 180.0f / M_PI;
+
+            return angleInDegrees;
+
+        } else {
+            float deltaX =  this->opponent->getPositionVector()->x - this->getPositionVector()->x;
+            float deltaY =  this->opponent->getPositionVector()->y - this->getPositionVector()->y;
+            float angleInRadians = atan2f(deltaY, deltaX); // Calculate angle in radians
+
+            // Convert to degrees if needed:
+            float angleInDegrees = angleInRadians * 180.0f / M_PI;
+
+            return angleInDegrees;
+        }
+
+        
+    }
+
+    void setArenaSide(string side){
+        this->arenaSide = side;
+    }
+
+    string getArenaSide(){
+        return this->arenaSide;
+    }
+
 
 };
 
@@ -244,12 +281,6 @@ public:
         int random_number = distribution(generator);
 
         if (option == "mae-geri") {
-            // Opponent was succesfully kicked?
-
-            // If yes
-            // return "ippon!"
-            // else 
-            // return "continue round"
             this->setKaratekaStateMovement("mae-geri");
 
             return "mae-geri";
