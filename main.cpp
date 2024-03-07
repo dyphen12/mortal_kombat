@@ -353,7 +353,7 @@ int main(int argc, char** argv){
 
             string result = A->block();
 
-            cout<<"block!"<<endl;
+            //cout<<"block!"<<endl;
             // Define a rectangle to represent the position and size of the arena on the screen
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; // Adjust values as needed
 

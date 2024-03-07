@@ -46,6 +46,7 @@ public:
         this->points = 0;
         this->opponent = NULL;
         this->speed = 1;
+        this->karatekaState = new State(); // Initialize karatekaState
     }
 
     int getID(){
@@ -200,6 +201,7 @@ public:
 
         // Execute Oi-zuki OR
         if (option == "oi-zuki" && random_number == 2) {
+            this->setKaratekaStateMovement("oi-zuki");
             return "oi-zuki";
         } else if (option == "gyaku-zuki" && random_number == 4) {
             return "gyaku-zuki";
@@ -284,42 +286,3 @@ public:
     }
 };
 
-
-void run_karateka_process(){
-
-    // Create two Karateka objects with IDs 1 and 2
-    Karateka* G1 = new Karateka(1);
-    Karateka* G2 = new Karateka(2);
-
-    // Create a K20 object with ID 3
-    K20* A = new K20(3);
-
-    // Assign G2 as the opponent for A
-    A->initialize(G2);
-
-    // Print information about A's opponent
-    A->printOpponent();
-
-    // Increase A's points four times
-    //A->setPoints();
-    //A->setPoints();
-    //A->setPoints();
-    //A->setPoints();
-
-    // Print A's current points
-    //cout << A->getPoints() << endl;
-
-    // Call A's very hard kick method (likely needs implementation)
-    //A->veryHardKick();
-
-    /* Commented-out code:
-    // Assign G2 as opponent for G1 and vice versa (would create circular references)
-    G1->initialize(G2);
-    G2->initialize(G1);
-
-    // Print information about G1's and G2's opponents (would cause infinite loops)
-    G1->printOpponent();
-    G2->printOpponent();
-    */
-
-}
