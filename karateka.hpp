@@ -26,6 +26,7 @@ struct State {
     int karatekaPoints;
     int opponentPoints;
     string movement;
+    bool isColliding;
 };
 
 class Karateka { 
@@ -47,6 +48,7 @@ public:
         this->opponent = NULL;
         this->speed = 1;
         this->karatekaState = new State(); // Initialize karatekaState
+        this->karatekaState->movement = "stand-up";
     }
 
     int getID(){
@@ -126,8 +128,8 @@ public:
         return this->posvec;
     } 
 
-    string getKaratekaStateMovement(){
-        return this->karatekaState->movement;
+    State* getKaratekaState(){
+        return this->karatekaState;
     }
 
     void setKaratekaStateMovement(string movement){
@@ -204,6 +206,7 @@ public:
             this->setKaratekaStateMovement("oi-zuki");
             return "oi-zuki";
         } else if (option == "gyaku-zuki" && random_number == 4) {
+            this->setKaratekaStateMovement("gyaku-zuki");
             return "gyaku-zuki";
         } else {
             return "fail";
@@ -221,8 +224,10 @@ public:
         int random_number = distribution(generator);
 
         if (option == "mae-geri" && random_number == 2) {
+            this->setKaratekaStateMovement("mae-geri");
             return "mae-geri";
         } else if (option == "yoko-geri" && random_number == 4) {
+            this->setKaratekaStateMovement("yoko-geri");
             return "yoko-geri";
         } else {
             return "fail";
@@ -245,9 +250,11 @@ public:
             // return "ippon!"
             // else 
             // return "continue round"
+            this->setKaratekaStateMovement("mae-geri");
 
             return "mae-geri";
         } else if (option == "yoko-geri") {
+            this->setKaratekaStateMovement("yoko-geri");
             return "yoko-geri";
         } else {
             return "fail";
@@ -264,7 +271,7 @@ public:
         int random_number = distribution(generator);
 
         if(random_number == 2){
-            //this->setKaratekaStateMovement("block");
+            this->setKaratekaStateMovement("block");
             return "block";
         } else {
             return "fail";

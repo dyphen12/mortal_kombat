@@ -311,6 +311,10 @@ int main(int argc, char** argv){
 
         // KARATEKA A // Keyboard Controlled
 
+        State* karateka1State = A->getKaratekaState();
+        
+        //cout<<A->getKaratekaState()->movement<<endl;
+
         
 
         isMKeyPressed = state[SDL_SCANCODE_M];
@@ -319,8 +323,6 @@ int main(int argc, char** argv){
         if (isMKeyPressed){
 
             string result = A->punch("oi-zuki");
-
-            
 
             //cout<<"Oi Zuki!"<<endl;
             // Define a rectangle to represent the position and size of the arena on the screen
@@ -333,9 +335,11 @@ int main(int argc, char** argv){
 
             //cout<<areKaratekasColliding<<endl;
 
-            if (areKaratekasColliding){
+            if (areKaratekasColliding && B->getKaratekaState()->movement != "block"){
                 cout<<"Karatekas Are Colliding!"<<endl;
                 cout<<"Yuko!"<<endl;
+            } else if (areKaratekasColliding && B->getKaratekaState()->movement == "block"){
+                cout<<"Attack Blocked!"<<endl;
             }
             
         } else if (isNKeyPressed){
@@ -361,6 +365,10 @@ int main(int argc, char** argv){
             SDL_RenderCopy(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect);
             
         } else {
+
+            // Set KaratekaState
+            karateka1State->movement = "stand-up";
+
             // Define a rectangle to represent the position and size of the arena on the screen
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; // Adjust values as needed
 
@@ -371,6 +379,7 @@ int main(int argc, char** argv){
         
 
         // KARATEKA 2 // Simulated
+        
 
         if (B->punch("oi-zuki") == "oi-zuki"){
 
@@ -409,6 +418,8 @@ int main(int argc, char** argv){
             SDL_RenderCopy(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect);
             
         }
+        State* karateka2State = B->getKaratekaState();
+        //cout<<"Karateka B State Movement = "<<karateka2State->movement<<endl;
 
 
         // ALWAYS RENDER THE PRESENT
