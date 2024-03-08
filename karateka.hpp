@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <cmath>
 #include <SDL2/SDL.h>
 
 using namespace std;
@@ -26,7 +27,34 @@ struct State {
     int karatekaPoints;
     int opponentPoints;
     string movement;
+    string opponentMovement;
     bool isColliding;
+    float distanceToOpponent;
+    string karatekaLastAction;
+    string opponentLastAction;
+
+    void printState() const {
+        cout << "** Match State **" << endl;
+        cout << "Karateka Position: (" << karatekaPos->x << ", " << karatekaPos->y << ")" << endl;
+        cout << "Opponent Position: (" << opponentPos->x << ", " << opponentPos->y << ")" << endl;
+        cout << "Karateka Points: " << karatekaPoints << endl;
+        cout << "Opponent Points: " << opponentPoints << endl;
+        //cout << "Karateka Movement: " << movement << endl;
+        //cout << "Opponent Movement: " << opponentMovement << endl;
+        cout << "Is Colliding: " << (isColliding ? "Yes" : "No") << endl;
+        cout << "Distance to Opponent: " << distanceToOpponent << endl;
+        cout << "Karateka Last Action: " << karatekaLastAction << endl;
+        cout << "Opponent Last Action: " << opponentLastAction << endl;
+    }
+
+    float calculateDistanceToOpponent() const {
+        // Calculate the difference in x and y coordinates
+        float deltaX = karatekaPos->x - opponentPos->x;
+        float deltaY = karatekaPos->y - opponentPos->y;
+
+        // Use the Pythagorean theorem to calculate the distance
+        return sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
 };
 
 class Karateka { 
@@ -39,8 +67,9 @@ protected:
     string style;
     PositionVector *posvec;
     int speed;
-    State *karatekaState;
+    State *MatchState;
     string arenaSide;
+    SDL_Rect *karatekaRect;
 
 public:
     Karateka(int i) { 
@@ -48,8 +77,8 @@ public:
         this->points = 0;
         this->opponent = NULL;
         this->speed = 1;
-        this->karatekaState = new State(); // Initialize karatekaState
-        this->karatekaState->movement = "stand-up";
+        this->MatchState = new State(); // Initialize MatchState
+        this->MatchState->movement = "stand-up";
         this->arenaSide = "Null";
     }
 
@@ -130,12 +159,12 @@ public:
         return this->posvec;
     } 
 
-    State* getKaratekaState(){
-        return this->karatekaState;
+    State* getMatchState(){
+        return this->MatchState;
     }
 
-    void setKaratekaStateMovement(string movement){
-        this->karatekaState->movement = movement;
+    void setMatchStateMovement(string movement){
+        this->MatchState->movement = movement;
     }
 
     bool checkCollision( SDL_Rect a, SDL_Rect b )
@@ -218,6 +247,35 @@ public:
         return this->arenaSide;
     }
 
+    void setKaratekaRect(SDL_Rect *rect){
+        this->karatekaRect = rect;
+    }
+
+    SDL_Rect* getKaratekaRect(){
+        return this->karatekaRect;
+    }
+
+    
+
+    void updateMatchState(){
+        this->MatchState->karatekaLastAction = this->MatchState->movement;
+        this->MatchState->karatekaPos = this->getPositionVector();
+        this->MatchState->karatekaPoints = this->getPoints();
+
+
+        this->MatchState->opponentLastAction = this->opponent->MatchState->movement;
+        this->MatchState->opponentPos = this->opponent->getPositionVector();
+        this->MatchState->opponentPoints = this->opponent->getPoints();
+
+
+        SDL_Rect *opponentRect = this->opponent->getKaratekaRect();
+        this->MatchState->isColliding = this->checkCollision(*karatekaRect, *opponentRect);
+
+        this->MatchState->distanceToOpponent = this->MatchState->calculateDistanceToOpponent();
+        
+        
+    }
+
 
 };
 
@@ -240,10 +298,10 @@ public:
 
         // Execute Oi-zuki OR
         if (option == "oi-zuki" && random_number == 2) {
-            this->setKaratekaStateMovement("oi-zuki");
+            this->setMatchStateMovement("oi-zuki");
             return "oi-zuki";
         } else if (option == "gyaku-zuki" && random_number == 4) {
-            this->setKaratekaStateMovement("gyaku-zuki");
+            this->setMatchStateMovement("gyaku-zuki");
             return "gyaku-zuki";
         } else {
             return "fail";
@@ -261,10 +319,10 @@ public:
         int random_number = distribution(generator);
 
         if (option == "mae-geri" && random_number == 2) {
-            this->setKaratekaStateMovement("mae-geri");
+            this->setMatchStateMovement("mae-geri");
             return "mae-geri";
         } else if (option == "yoko-geri" && random_number == 4) {
-            this->setKaratekaStateMovement("yoko-geri");
+            this->setMatchStateMovement("yoko-geri");
             return "yoko-geri";
         } else {
             return "fail";
@@ -281,11 +339,11 @@ public:
         int random_number = distribution(generator);
 
         if (option == "mae-geri") {
-            this->setKaratekaStateMovement("mae-geri");
+            this->setMatchStateMovement("mae-geri");
 
             return "mae-geri";
         } else if (option == "yoko-geri") {
-            this->setKaratekaStateMovement("yoko-geri");
+            this->setMatchStateMovement("yoko-geri");
             return "yoko-geri";
         } else {
             return "fail";
@@ -302,7 +360,7 @@ public:
         int random_number = distribution(generator);
 
         if(random_number == 2){
-            this->setKaratekaStateMovement("block");
+            this->setMatchStateMovement("block");
             return "block";
         } else {
             return "fail";

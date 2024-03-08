@@ -28,6 +28,9 @@
 #define KARATEKA_MAEGERI_WIDTH 70
 #define KARATEKA_MAEGERI_HEIGHT 35
 
+#define KARATEKA_YOKOGERI_WIDTH 77
+#define KARATEKA_YOKOGERI_HEIGHT 28
+
 #define KARATEKA_AGEUKE_WIDTH 49
 #define KARATEKA_AGEUKE_HEIGHT 35
 
@@ -41,6 +44,8 @@ bool isMovingDown = false;
 bool isMKeyPressed = false;
 bool isNKeyPressed = false;
 bool isBKeyPressed = false;
+bool isJKeyPressed = false;
+bool isKKeyPressed = false;
 
 int karatekaSpriteSizeW;
 int karatekaSpriteSizeH;
@@ -293,11 +298,6 @@ int main(int argc, char** argv){
         A->setPosition(posvk1);
         
 
-        
-        //cout<<"Delta X = "<<deltaX<<" Delta Y = "<<deltaY<<endl;
-        //cout<<"Angle In Degrees = "<<angleInDegrees<<endl;
-
-
         // RENDERING TASKS
         // ARENA RENDERING
 
@@ -318,36 +318,33 @@ int main(int argc, char** argv){
         // Render the texture to the screen
         SDL_RenderCopy(renderer, arenaTexture, NULL, &arenaRect);
 
-
         SDL_Rect karatekaRect;
         SDL_Rect karateka2Rect;
 
         // KARATEKA A // Keyboard Controlled
 
-        State* karateka1State = A->getKaratekaState();
-
+        //State* karateka1State = A->getKaratekaState();
 
         isMKeyPressed = state[SDL_SCANCODE_M];
         isNKeyPressed = state[SDL_SCANCODE_N];
         isBKeyPressed = state[SDL_SCANCODE_B];
+        isJKeyPressed = state[SDL_SCANCODE_J];
+        isKKeyPressed = state[SDL_SCANCODE_K];
         if (isMKeyPressed){
 
             string result = A->punch("oi-zuki");
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
-            //SDL_RenderCopy(renderer, karatekaOiZukiTexture, NULL, &karatekaRect);
-
             SDL_RenderCopyEx(renderer, karatekaOiZukiTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
-
-            
 
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && B->getKaratekaState()->movement != "block"){
+            if (areKaratekasColliding && B->getMatchState()->movement != "block"){
                 cout<<"Karatekas Are Colliding!"<<endl;
                 cout<<"Yuko!"<<endl;
-            } else if (areKaratekasColliding && B->getKaratekaState()->movement == "block"){
+                A->setPoints();
+            } else if (areKaratekasColliding && B->getMatchState()->movement == "block"){
                 cout<<"Attack Blocked!"<<endl;
             }
             
@@ -357,8 +354,6 @@ int main(int argc, char** argv){
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; 
 
-            //SDL_RenderCopy(renderer, karatekaMaeGeriTexture, NULL, &karatekaRect);
-
             SDL_RenderCopyEx(renderer, karatekaMaeGeriTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else if (isBKeyPressed){
@@ -367,44 +362,66 @@ int main(int argc, char** argv){
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
-            //SDL_RenderCopy(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect);
-
             SDL_RenderCopyEx(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
+            
+        } else if (isJKeyPressed){
+
+            string result = A->manualkick("yoko-geri");
+
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT}; 
+
+            SDL_RenderCopyEx(renderer, karatekaYokoGeriTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
+            
+        } else if (isKKeyPressed){
+
+            string result = A->punch("gyaku-zuki");
+
+            karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
+
+            SDL_RenderCopyEx(renderer, karatekaGyakuZukiTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else {
 
             // Set KaratekaState
-            karateka1State->movement = "stand-up";
+            A->setMatchStateMovement("stand-up");
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
             // Before rendering the karateka:
             SDL_RenderCopyEx(renderer, karatekaBasicStanceTexture, NULL, &karatekaRect, A->getRotationAngle(), NULL, SDL_FLIP_NONE);
-
-            // Render the texture to the screen
-            //SDL_RenderCopy(renderer, karatekaBasicStanceTexture, NULL, &karatekaRect);
             
         }
+
+        A->setKaratekaRect(&karatekaRect);
         
 
         // KARATEKA 2 // Simulated
 
         bool fuck = true;
+
+        //B->updatePosition("left");
+        //B->updatePosition("forward");
         
 
         if (B->punch("oi-zuki") == "oi-zuki"){
 
             karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
-            //SDL_RenderCopy(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect);
-
             SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
+
+            bool areKaratekasColliding = B->checkCollision(karatekaRect, karateka2Rect);
+
+            if (areKaratekasColliding && A->getMatchState()->movement != "block"){
+                cout<<"Karatekas Are Colliding!"<<endl;
+                cout<<"Yuko!"<<endl;
+                B->setPoints();
+            } else if (areKaratekasColliding && A->getMatchState()->movement == "block"){
+                cout<<"Attack Blocked!"<<endl;
+            }
             
         } else if (B->punch("gyaku-zuki") == "gyaku-zuki"){
 
             karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
-
-            //SDL_RenderCopy(renderer, karateka2GyakuZukiTexture, NULL, &karateka2Rect);
 
             SDL_RenderCopyEx(renderer, karateka2GyakuZukiTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
@@ -414,21 +431,26 @@ int main(int argc, char** argv){
 
             karatekaRect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
-            //SDL_RenderCopy(renderer, karateka2AgeUkeTexture, NULL, &karatekaRect);
-
             SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         } else {
 
-            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
+            B->setMatchStateMovement("stand-up");
 
-            // Render the texture to the screen
-            //SDL_RenderCopy(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect);
+            karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect, B->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
         }
-        State* karateka2State = B->getKaratekaState();
+        B->setKaratekaRect(&karateka2Rect);
+
+        A->updateMatchState();
+        B->updateMatchState();
+
+
+        State* matchState = B->getMatchState();
+        matchState->printState();
+
 
 
         // ALWAYS RENDER THE PRESENT
