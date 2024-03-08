@@ -256,7 +256,6 @@ public:
     }
 
     
-
     void updateMatchState(){
         this->MatchState->karatekaLastAction = this->MatchState->movement;
         this->MatchState->karatekaPos = this->getPositionVector();
