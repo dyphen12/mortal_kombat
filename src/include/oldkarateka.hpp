@@ -6,9 +6,14 @@
 
 using namespace std;
 
-random_device rd;
-mt19937 generator(rd());
-uniform_int_distribution<int> distribution(1, 30); // Generates numbers between 1 and 10
+int rng(){
+    random_device rd;
+    mt19937 generator(rd());
+    uniform_int_distribution<int> distribution(1, 30); // Generates numbers between 1 and 10
+    int random_number = distribution(generator);
+    return random_number;
+    
+}
 
 struct PositionVector {
     int x;
@@ -293,7 +298,9 @@ public:
 
     string punch(string option) { 
 
-        int random_number = distribution(generator);
+        int random_number = rng();
+
+        
 
         // Execute Oi-zuki OR
         if (option == "oi-zuki" && random_number == 2) {
@@ -315,7 +322,8 @@ public:
     string kick(string option){
         // Execute Mae-geri OR
 
-        int random_number = distribution(generator);
+        int random_number = rng();
+
 
         if (option == "mae-geri" && random_number == 2) {
             this->setMatchStateMovement("mae-geri");
@@ -335,7 +343,8 @@ public:
     string manualkick(string option){
         // Execute Mae-geri OR
 
-        int random_number = distribution(generator);
+        int random_number = rng();
+
 
         if (option == "mae-geri") {
             this->setMatchStateMovement("mae-geri");
@@ -356,7 +365,8 @@ public:
     string block(){
         // Execute Age-uke OR (used against oi-zuki)
 
-        int random_number = distribution(generator);
+        int random_number = rng();
+
 
         if(random_number == 2){
             this->setMatchStateMovement("block");

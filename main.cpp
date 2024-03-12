@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <SDL2/SDL_keycode.h> 
 #include "championship.hpp"
+#include <random>
+#include <cmath>
 
 #define SCREEN_WIDTH 1280 
 #define SCREEN_HEIGHT 720 
@@ -49,6 +51,14 @@ bool isKKeyPressed = false;
 
 int karatekaSpriteSizeW;
 int karatekaSpriteSizeH;
+
+int rng(){
+    random_device rd;
+    mt19937 generator(rd());
+    uniform_int_distribution<int> distribution(1, 30); // Generates numbers between 1 and 10
+    int random_number = distribution(generator);
+    return random_number;
+}
 
 
 int main(int argc, char** argv){
@@ -332,7 +342,7 @@ int main(int argc, char** argv){
         isKKeyPressed = state[SDL_SCANCODE_K];
         if (isMKeyPressed){
 
-            string result = A->punch("oi-zuki");
+            string result = A->punch("oi-zuki", rng());
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
@@ -341,10 +351,10 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && B->getMatchState()->movement != "block"){
-                cout<<"Yuko!"<<endl;
+                //cout<<"Yuko!"<<endl;
                 A->setPoints();
             } else if (areKaratekasColliding && B->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
         } else if (isNKeyPressed){
@@ -358,16 +368,16 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && B->getMatchState()->movement != "block"){
-                cout<<"Wazari!"<<endl;
+                //cout<<"Wazari!"<<endl;
                 A->setPoints();
                 A->setPoints();
             } else if (areKaratekasColliding && B->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
         } else if (isBKeyPressed){
 
-            string result = A->block();
+            string result = A->block(rng());
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
@@ -385,17 +395,17 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && B->getMatchState()->movement != "block"){
-                cout<<"Ippon!"<<endl;
+                //cout<<"Ippon!"<<endl;
                 A->setPoints();
                 A->setPoints();
                 A->setPoints();
             } else if (areKaratekasColliding && B->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
         } else if (isKKeyPressed){
 
-            string result = A->punch("gyaku-zuki");
+            string result = A->punch("gyaku-zuki", rng());
 
             karatekaRect = {karatekaCenterX-90, karatekaCenterY, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
 
@@ -404,10 +414,10 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = A->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && B->getMatchState()->movement != "block"){
-                cout<<"Yuko!"<<endl;
+                //cout<<"Yuko!"<<endl;
                 A->setPoints();
             } else if (areKaratekasColliding && B->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
         } else {
@@ -433,7 +443,7 @@ int main(int argc, char** argv){
         //B->updatePosition("forward");
         
 
-        if (B->punch("oi-zuki") == "oi-zuki"){
+        if (B->punch("oi-zuki", rng()) == "oi-zuki"){
 
             karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
@@ -442,13 +452,13 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = B->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && A->getMatchState()->movement != "block"){
-                cout<<"Yuko!"<<endl;
+                //cout<<"Yuko!"<<endl;
                 B->setPoints();
             } else if (areKaratekasColliding && A->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (B->punch("gyaku-zuki") == "gyaku-zuki"){
+        } else if (B->punch("gyaku-zuki", rng()) == "gyaku-zuki"){
 
             karateka2Rect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
 
@@ -457,15 +467,15 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = B->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && A->getMatchState()->movement != "block"){
-                cout<<"Yuko!"<<endl;
+                //cout<<"Yuko!"<<endl;
                 B->setPoints();
             } else if (areKaratekasColliding && A->getMatchState()->movement == "block"){
-                cout<<"Attack Blocked!"<<endl;
+                //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (B->block() == "block"){
+        } else if (B->block(rng()) == "block"){
 
-            string result = B->block();
+            string result = B->block(rng());
 
             karatekaRect = {B->getPositionVector()->x, B->getPositionVector()->y, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
@@ -487,7 +497,7 @@ int main(int argc, char** argv){
 
 
         State* matchState = B->getMatchState();
-        //matchState->printState();
+        matchState->printState();
 
 
 
