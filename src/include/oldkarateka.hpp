@@ -1,19 +1,9 @@
 #include <iostream>
 #include <string>
-#include <random>
 #include <cmath>
 #include <SDL2/SDL.h>
 
 using namespace std;
-
-int rng(){
-    random_device rd;
-    mt19937 generator(rd());
-    uniform_int_distribution<int> distribution(1, 30); // Generates numbers between 1 and 10
-    int random_number = distribution(generator);
-    return random_number;
-    
-}
 
 struct PositionVector {
     int x;
@@ -23,7 +13,6 @@ struct PositionVector {
         x = xi;
         y = yi;
     }
-
 };
 
 struct State {
@@ -61,6 +50,7 @@ struct State {
         return sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 };
+
 
 class Karateka { 
 protected:
@@ -239,9 +229,7 @@ public:
             float angleInDegrees = angleInRadians * 180.0f / M_PI;
 
             return angleInDegrees;
-        }
-
-        
+        }       
     }
 
     void setArenaSide(string side){
@@ -276,11 +264,8 @@ public:
         this->MatchState->isColliding = this->checkCollision(*karatekaRect, *opponentRect);
 
         this->MatchState->distanceToOpponent = this->MatchState->calculateDistanceToOpponent();
-        
-        
+               
     }
-
-
 };
 
 
@@ -296,10 +281,10 @@ public:
         this->setStyle("shotokan");
     }
 
-    string punch(string option) { 
+    string punch(string option, int rn) { 
 
-        int random_number = rng();
-
+        //int random_number = rng();
+        int random_number = rn;
         
 
         // Execute Oi-zuki OR
@@ -319,11 +304,11 @@ public:
 
     }
 
-    string kick(string option){
+    string kick(string option, int rn){
         // Execute Mae-geri OR
 
-        int random_number = rng();
-
+        //int random_number = rng();
+        int random_number = rn;
 
         if (option == "mae-geri" && random_number == 2) {
             this->setMatchStateMovement("mae-geri");
@@ -343,8 +328,8 @@ public:
     string manualkick(string option){
         // Execute Mae-geri OR
 
-        int random_number = rng();
-
+        //int random_number = rng();
+        int random_number = 2;
 
         if (option == "mae-geri") {
             this->setMatchStateMovement("mae-geri");
@@ -362,11 +347,11 @@ public:
         // Execute Mawashi-geri
     }
 
-    string block(){
+    string block(int rn){
         // Execute Age-uke OR (used against oi-zuki)
 
-        int random_number = rng();
-
+        //int random_number = rng();
+        int random_number = rn;
 
         if(random_number == 2){
             this->setMatchStateMovement("block");
