@@ -70,6 +70,14 @@ public:
     SDL_Rect *getKaratekaRect();
 
     void updateMatchState();
+
+    virtual string punch(string option, int rn);
+
+    virtual string kick(string option, int rn);
+
+    virtual string manualkick(string option);
+
+    virtual string block(int rn);
 };
 
 class Shotokan : public Karateka {

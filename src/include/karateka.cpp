@@ -164,6 +164,28 @@ void Karateka::updateMatchState() {
     this->MatchState->distanceToOpponent = this->MatchState->calculateDistanceToOpponent();
 }
 
+string Karateka::punch(string option, int rn) {
+    // Provide an implementation (e.g., basic punch)
+    return "Basic punch";
+}
+
+string Karateka::manualkick(string option) {
+    // Provide an implementation (e.g., basic punch)
+    return "Basic punch";
+}
+
+string Karateka::kick(string option, int rn) {
+    // Provide an implementation (e.g., basic punch)
+    return "Basic punch";
+}
+
+
+string Karateka::block(int rn) {
+    // Provide an implementation (e.g., basic punch)
+    return "Basic punch";
+}
+
+
 Shotokan::Shotokan(int i) : Karateka(i) {
     this->setStyle("shotokan");
 }
@@ -218,5 +240,7 @@ string Shotokan::block(int rn) {
         return "fail";
     }
 }
+
+
 
 

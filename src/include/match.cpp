@@ -31,3 +31,5 @@ Karateka* Match::getKaratekaA(){
 Karateka* Match::getKaratekaB(){
   return this->k2;
 }
+
+
