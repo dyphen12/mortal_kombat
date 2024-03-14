@@ -4,8 +4,6 @@
 
 using namespace std;
 
-
-
 class Championship{
     private:
     DLCList* karatekaList;
@@ -20,7 +18,6 @@ class Championship{
     public:
     Championship() : karatekaList(new DLCList) {
         cout<<"Championship Started!"<<endl;
-
 
 
     }  // Initialize during object creation
@@ -48,9 +45,6 @@ class Championship{
     void finalsRun(){
 
     }
-
-
-    
 
 };
 

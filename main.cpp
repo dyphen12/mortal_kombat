@@ -257,9 +257,9 @@ int main(int argc, char** argv){
 
     // Setting Match
 
-    Match* match1 = new Match(A,B);
-    match1->printMatchNames();
-    match1->simulateMatch();
+    Match* match = new Match(A,B);
+    match->printMatchNames();
+    match->simulateMatch();
 
 
      // Main loop
@@ -340,6 +340,7 @@ int main(int argc, char** argv){
         isBKeyPressed = state[SDL_SCANCODE_B];
         isJKeyPressed = state[SDL_SCANCODE_J];
         isKKeyPressed = state[SDL_SCANCODE_K];
+
         if (isMKeyPressed){
 
             string result = A->punch("oi-zuki", rng());

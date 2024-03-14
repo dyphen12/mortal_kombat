@@ -23,3 +23,11 @@ void Match::simulateMatch() {
   std::cout << "Simulating Match" << std::endl;
   std::cout << k1->getName() << " VS " << k2->getName() << std::endl;
 }
+
+Karateka* Match::getKaratekaA(){
+  return this->k1;
+}
+
+Karateka* Match::getKaratekaB(){
+  return this->k2;
+}
