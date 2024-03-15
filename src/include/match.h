@@ -10,6 +10,8 @@ private:
   Karateka *winner; // Assuming winner is determined later
   int k1R;
   int k2R;
+  int duration;
+
 
 public:
   Match(Karateka *k1, Karateka *k2);
@@ -22,16 +24,33 @@ public:
 };
 
 
-class Referee : public Match { 
+class Referee {
+private:
+  Match *match;
+  bool isYuko;
+  bool isWazari;
+  bool isIppon;
 public:
-    Referee(Karateka *k1, Karateka *k2) : Match(k1, k2) { 
+    Referee(); 
+
+    string callMovement(string movement){
+      if (movement == "yuko"){
+        return "yuko";
+      } else if (movement == "wazari"){
+        return "wazari";
+      } else if (movement == "ippon"){
+        return "ippon";
+      }
+      
     }
 
     string declareWinner(){
       return "winner";
     }
 
-    string callFoul(){
-      return "foul";
+    string callPenalty(){
+      return "Penalty";
     }
+
+    
 };

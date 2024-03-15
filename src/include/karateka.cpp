@@ -34,8 +34,14 @@ string Karateka::getStyle() {
     return this->style;
 }
 
-void Karateka::setPoints() {
-    this->points++;
+void Karateka::setPoints(string movementType) {
+    if (movementType == "yuko"){
+        this->points++;
+    } else if(movementType == "wazari"){
+        this->points = this->points + 2;
+    } else {
+        this->points = this->points + 3;
+    }
 }
 
 int Karateka::getPoints() {

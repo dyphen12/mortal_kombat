@@ -37,7 +37,7 @@ public:
 
     string getStyle();
 
-    void setPoints();
+    void setPoints(string movementType);
 
     int getPoints();
 
