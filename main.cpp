@@ -57,8 +57,14 @@
 #define NUMBER_WIDTH 16
 #define NUMBER_HEIGHT 28
 
+#define COLON_WIDTH 4
+#define COLON_HEIGHT 16
+
 #define TREE_WIDTH 120
 #define TREE_HEIGHT 244
+
+#define COUNTER_WIDTH 60
+#define COUNTER_HEIGHT 44
 
 bool isMovingRight = false;
 bool isMovingLeft = false;
@@ -349,6 +355,14 @@ int main(int argc, char** argv){
         return 1; 
     }
 
+    // Point Counter
+
+    SDL_Texture* counterTexture = IMG_LoadTexture(renderer, "assets/clock/counter.png");
+    if (!counterTexture) {
+        printf("Failed to load counter sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
     
 
 
@@ -388,6 +402,15 @@ int main(int argc, char** argv){
 
     int numberCenterX = ((screenWidth - NUMBER_WIDTH) / 2)+3;
     int numberCenterY = ((screenHeight - NUMBER_HEIGHT) / 2)-330;
+
+    int colonCenterX = ((screenWidth - COLON_WIDTH) / 2)+3;
+    int colonCenterY = ((screenHeight - COLON_HEIGHT) / 2)-330;
+
+    int counterCenterX = ((screenWidth - COUNTER_WIDTH) / 2)-200;
+    int counterCenterY = ((screenHeight - COUNTER_HEIGHT) / 2)-330;
+
+    int counter2CenterX = ((screenWidth - COUNTER_WIDTH) / 2)+200;
+    int counter2CenterY = ((screenHeight - COUNTER_HEIGHT) / 2)-330;
     
 
     // Setting Karateka A
@@ -475,7 +498,7 @@ int main(int argc, char** argv){
         int seconds = (int)fmod(remainingTime, 60);
 
         // Display remaining time (e.g., using text rendering functions)
-        cout << "Time Remaining: " << minutes << ":" << seconds << endl;
+        //cout << "Time Remaining: " << minutes << ":" << seconds << endl;
 
         
 
@@ -531,15 +554,213 @@ int main(int argc, char** argv){
         SDL_Rect arenaRect = {arenaCenterX, arenaCenterY, ARENA_WIDTH, ARENA_HEIGHT}; 
         SDL_RenderCopy(renderer, arenaTexture, NULL, &arenaRect);
 
+
+
+        // KARATEK A COUNTER
+
+        SDL_Rect counterRect = {counterCenterX, counterCenterY, COUNTER_WIDTH, COUNTER_HEIGHT}; 
+        SDL_RenderCopy(renderer, counterTexture, NULL, &counterRect);
+
+
+        // First digit
+        SDL_Rect counterdigit1Rect = {numberCenterX-214, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &counterdigit1Rect);
+
+
+        if (match->getKaratekaA()->getPoints() >= 90 && match->getKaratekaA()->getPoints() <= 99){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 80 && match->getKaratekaA()->getPoints() <= 89){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 70 && match->getKaratekaA()->getPoints() <= 79){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 60 && match->getKaratekaA()->getPoints() <= 69){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 50 && match->getKaratekaA()->getPoints() <= 59){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 40 && match->getKaratekaA()->getPoints() <= 49){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 30 && match->getKaratekaA()->getPoints() <= 39){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 20 && match->getKaratekaA()->getPoints() <= 29){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 10 && match->getKaratekaA()->getPoints() <= 19){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &counterdigit1Rect);
+        } else if (match->getKaratekaA()->getPoints() >= 0 && match->getKaratekaA()->getPoints() <= 9){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &counterdigit1Rect);
+        }
+
+        SDL_Rect counterdigit2Rect = {numberCenterX-192, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &counterdigit2Rect);
+
+
+        int pointsLastDigit = match->getKaratekaA()->getPoints() % 10; // lastDigit will be 9
+
+        if (pointsLastDigit == 9){
+            SDL_RenderCopy(renderer, nineTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 8){
+            SDL_RenderCopy(renderer, eightTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 7){
+            SDL_RenderCopy(renderer, sevenTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 6){
+            SDL_RenderCopy(renderer, sixTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 5){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 4){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 3){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 2){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 1){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &counterdigit2Rect);
+        } else if (pointsLastDigit == 0){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &counterdigit2Rect);
+        }
+
+
+        // KARATEKA B COUNTER
+
+        SDL_Rect counter2Rect = {counter2CenterX, counter2CenterY, COUNTER_WIDTH, COUNTER_HEIGHT}; 
+        SDL_RenderCopy(renderer, counterTexture, NULL, &counter2Rect);
+
+
+        // First digit
+        SDL_Rect counter2digit1Rect = {numberCenterX+186, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &counter2digit1Rect);  
+
+        if (match->getKaratekaB()->getPoints() >= 90 && match->getKaratekaB()->getPoints() <= 99){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 80 && match->getKaratekaB()->getPoints() <= 89){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 70 && match->getKaratekaB()->getPoints() <= 79){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 60 && match->getKaratekaB()->getPoints() <= 69){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 50 && match->getKaratekaB()->getPoints() <= 59){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 40 && match->getKaratekaB()->getPoints() <= 49){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 30 && match->getKaratekaB()->getPoints() <= 39){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 20 && match->getKaratekaB()->getPoints() <= 29){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 10 && match->getKaratekaB()->getPoints() <= 19){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &counter2digit1Rect);
+        } else if (match->getKaratekaB()->getPoints() >= 0 && match->getKaratekaB()->getPoints() <= 9){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &counter2digit1Rect);
+        }  
+
+        
+        SDL_Rect counter2digit2Rect = {numberCenterX+208, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &counter2digit2Rect);
+
+        int pointsLastDigit2 = match->getKaratekaB()->getPoints() % 10; // lastDigit will be 9
+
+        if (pointsLastDigit2 == 9){
+            SDL_RenderCopy(renderer, nineTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 8){
+            SDL_RenderCopy(renderer, eightTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 7){
+            SDL_RenderCopy(renderer, sevenTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 6){
+            SDL_RenderCopy(renderer, sixTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 5){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 4){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 3){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 2){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 1){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &counter2digit2Rect);
+        } else if (pointsLastDigit2 == 0){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &counter2digit2Rect);
+        }
+
+
+
+
         // CLOCK
 
         SDL_Rect clockRect = {clockCenterX, clockCenterY, CLOCK_WIDTH, CLOCK_HEIGHT}; 
         SDL_RenderCopy(renderer, clockTexture, NULL, &clockRect);
 
+        //cout << "Time Remaining: " << minutes << ":" << seconds << endl;
+
+
+        // First digit
+        SDL_Rect digit1Rect = {numberCenterX-34, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+        SDL_RenderCopy(renderer, zeroTexture, NULL, &digit1Rect);
+
+        // Second Digit
+        SDL_Rect digit2Rect = {numberCenterX-14, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT}; 
+
+        if (minutes == 3){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &digit2Rect);
+        } else if (minutes == 2){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &digit2Rect);
+        } else if (minutes == 1){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &digit2Rect);
+        } else if (minutes == 0){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &digit2Rect);
+        }
+
+        //SDL_Rect digit1Rect = {numberCenterX-34, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT}; 
+        //SDL_Rect digit2Rect = {numberCenterX-14, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT}; 
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &digit2Rect);
+
+        SDL_Rect colonRect = {colonCenterX, colonCenterY, COLON_WIDTH, COLON_HEIGHT}; 
+        SDL_RenderCopy(renderer, colonTexture, NULL, &colonRect);
+
+        SDL_Rect digit3Rect = {numberCenterX+14, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
+
+        if (seconds >= 50 && seconds <= 59){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &digit3Rect);
+        } else if (seconds >= 40 && seconds <= 49){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &digit3Rect);
+        } else if (seconds >= 30 && seconds <= 39){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &digit3Rect);
+        } else if (seconds >= 20 && seconds <= 29){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &digit3Rect);
+        } else if (seconds >= 10 && seconds <= 19){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &digit3Rect);
+        } else if (seconds >= 0 && seconds <= 9){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &digit3Rect);
+        }
+
+        int lastDigit = seconds % 10; // lastDigit will be 9
+        SDL_Rect digit4Rect = {numberCenterX+34, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT}; 
+
+        if (lastDigit == 9){
+            SDL_RenderCopy(renderer, nineTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 8){
+            SDL_RenderCopy(renderer, eightTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 7){
+            SDL_RenderCopy(renderer, sevenTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 6){
+            SDL_RenderCopy(renderer, sixTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 5){
+            SDL_RenderCopy(renderer, fiveTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 4){
+            SDL_RenderCopy(renderer, fourTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 3){
+            SDL_RenderCopy(renderer, threeTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 2){
+            SDL_RenderCopy(renderer, twoTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 1){
+            SDL_RenderCopy(renderer, oneTexture, NULL, &digit4Rect);
+        } else if (lastDigit == 0){
+            SDL_RenderCopy(renderer, zeroTexture, NULL, &digit4Rect);
+        }
 
         
 
 
+        
+        //SDL_RenderCopy(renderer, zeroTexture, NULL, &digit4Rect);
+
+        
 
         SDL_Rect karatekaRect;
         SDL_Rect karateka2Rect;
