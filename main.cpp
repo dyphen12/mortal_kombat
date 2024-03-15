@@ -42,9 +42,20 @@
 #define REFEREE_LEFTPOINT_WIDTH 56
 #define REFEREE_LEFTPOINT_HEIGHT 21
 
-#define YUKO_TEXTBOX_WIDTH 161
-#define YUKO_TEXTBOX_HEIGHT 77
+#define YUKO_TEXTBOX_WIDTH 92
+#define YUKO_TEXTBOX_HEIGHT 44
 
+#define WAZARI_TEXTBOX_WIDTH 132
+#define WAZARI_TEXTBOX_HEIGHT 44
+
+#define IPPON_TEXTBOX_WIDTH 112
+#define IPPON_TEXTBOX_HEIGHT 44
+
+#define CLOCK_WIDTH 108
+#define CLOCK_HEIGHT 44
+
+#define NUMBER_WIDTH 16
+#define NUMBER_HEIGHT 28
 
 #define TREE_WIDTH 120
 #define TREE_HEIGHT 244
@@ -252,7 +263,91 @@ int main(int argc, char** argv){
         return 1; 
     }
 
-    // Time
+    SDL_Texture* wazariTextBoxTexture = IMG_LoadTexture(renderer, "assets/referee_sprites/wazari_text_box.png");
+    if (!wazariTextBoxTexture) {
+        printf("Failed to load wazari text box sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* ipponTextBoxTexture = IMG_LoadTexture(renderer, "assets/referee_sprites/ippon_text_box.png");
+    if (!ipponTextBoxTexture) {
+        printf("Failed to load ippon text box sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    // Clock
+
+    SDL_Texture* clockTexture = IMG_LoadTexture(renderer, "assets/clock/clock.png");
+    if (!clockTexture) {
+        printf("Failed to load clock sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* zeroTexture = IMG_LoadTexture(renderer, "assets/clock/0.png");
+    if (!zeroTexture) {
+        printf("Failed to load zero sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* oneTexture = IMG_LoadTexture(renderer, "assets/clock/1.png");
+    if (!oneTexture) {
+        printf("Failed to load one sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* twoTexture = IMG_LoadTexture(renderer, "assets/clock/2.png");
+    if (!twoTexture) {
+        printf("Failed to load two sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* threeTexture = IMG_LoadTexture(renderer, "assets/clock/3.png");
+    if (!threeTexture) {
+        printf("Failed to load three sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* fourTexture = IMG_LoadTexture(renderer, "assets/clock/4.png");
+    if (!fourTexture) {
+        printf("Failed to load four sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* fiveTexture = IMG_LoadTexture(renderer, "assets/clock/5.png");
+    if (!fiveTexture) {
+        printf("Failed to load five sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* sixTexture = IMG_LoadTexture(renderer, "assets/clock/6.png");
+    if (!sixTexture) {
+        printf("Failed to load six sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* sevenTexture = IMG_LoadTexture(renderer, "assets/clock/7.png");
+    if (!sevenTexture) {
+        printf("Failed to load seven sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* eightTexture = IMG_LoadTexture(renderer, "assets/clock/8.png");
+    if (!eightTexture) {
+        printf("Failed to load eight sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* nineTexture = IMG_LoadTexture(renderer, "assets/clock/9.png");
+    if (!nineTexture) {
+        printf("Failed to load nine sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* colonTexture = IMG_LoadTexture(renderer, "assets/clock/colon.png");
+    if (!colonTexture) {
+        printf("Failed to load colon sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
 
     
 
@@ -281,6 +376,19 @@ int main(int argc, char** argv){
 
     int yukoTextBoxCenterX = (screenWidth - YUKO_TEXTBOX_WIDTH) / 2;
     int yukoTextBoxCenterY = ((screenHeight - YUKO_TEXTBOX_HEIGHT) / 2)-290;
+
+    int wazariTextBoxCenterX = ((screenWidth - WAZARI_TEXTBOX_WIDTH) / 2);
+    int wazariTextBoxCenterY = ((screenHeight - WAZARI_TEXTBOX_HEIGHT) / 2)-290;
+
+    int ipponTextBoxCenterX = ((screenWidth - IPPON_TEXTBOX_WIDTH) / 2);
+    int ipponTextBoxCenterY = ((screenHeight - IPPON_TEXTBOX_HEIGHT) / 2)-290;
+
+    int clockCenterX = ((screenWidth - CLOCK_WIDTH) / 2)+3;
+    int clockCenterY = ((screenHeight - CLOCK_HEIGHT) / 2)-330;
+
+    int numberCenterX = ((screenWidth - NUMBER_WIDTH) / 2)+3;
+    int numberCenterY = ((screenHeight - NUMBER_HEIGHT) / 2)-330;
+    
 
     // Setting Karateka A
 
@@ -324,8 +432,18 @@ int main(int argc, char** argv){
     State* matchState = match->getKaratekaA()->getMatchState();
 
     bool isYukoLeftAnimationPlaying = false;  // Flag to track animation state
-    uint64_t yukoAnimationStartTime;     // Time when Yuko animation started
+    uint64_t animationStartTime;     // Time when Yuko animation started
 
+    bool isWazariLeftAnimationPlaying = false;  // Flag to track animation state
+
+    bool isIpponLeftAnimationPlaying = false;  // Flag to track animation state
+
+
+    uint64_t matchStartTime;  // Time when the match starts
+    const double matchDuration = 3.0 * 60.0;  // Match duration in seconds (3 minutes)
+    bool matchOngoing = true;  // Flag to track match state
+
+    matchStartTime = SDL_GetPerformanceCounter();
 
      // Main loop
     bool running = true;
@@ -340,6 +458,26 @@ int main(int argc, char** argv){
         }
 
         uint64_t frequency = SDL_GetPerformanceFrequency();  // Get clock frequency
+
+        uint64_t matchCurrentTime = SDL_GetPerformanceCounter();
+        double matchDeltaTime = (double)(matchCurrentTime - matchStartTime) / (double)frequency;
+
+        // Update remaining time
+        double remainingTime = matchDuration - matchDeltaTime;
+
+        // Check if match has ended
+        if (remainingTime <= 0.0) {
+            matchOngoing = false;
+            // Handle match ending (e.g., display message, stop simulation)
+        }
+
+        int minutes = (int)floor(remainingTime / 60);
+        int seconds = (int)fmod(remainingTime, 60);
+
+        // Display remaining time (e.g., using text rendering functions)
+        cout << "Time Remaining: " << minutes << ":" << seconds << endl;
+
+        
 
 
         // Clear screen (adjust color if needed)
@@ -390,11 +528,18 @@ int main(int argc, char** argv){
         SDL_Rect dstRect = {centerX, centerY, FLOOR_WIDTH, FLOOR_HEIGHT};
         SDL_RenderCopy(renderer, texture, NULL, &dstRect);
        
-        // Define a rectangle to represent the position and size of the arena on the screen
-        SDL_Rect arenaRect = {arenaCenterX, arenaCenterY, ARENA_WIDTH, ARENA_HEIGHT}; // Adjust values as needed
-
-        // Render the texture to the screen
+        SDL_Rect arenaRect = {arenaCenterX, arenaCenterY, ARENA_WIDTH, ARENA_HEIGHT}; 
         SDL_RenderCopy(renderer, arenaTexture, NULL, &arenaRect);
+
+        // CLOCK
+
+        SDL_Rect clockRect = {clockCenterX, clockCenterY, CLOCK_WIDTH, CLOCK_HEIGHT}; 
+        SDL_RenderCopy(renderer, clockTexture, NULL, &clockRect);
+
+
+        
+
+
 
         SDL_Rect karatekaRect;
         SDL_Rect karateka2Rect;
@@ -405,16 +550,20 @@ int main(int argc, char** argv){
 
         SDL_Rect yukoTextBoxRect;
 
+        SDL_Rect wazariTextBoxRect;
+
+        SDL_Rect ipponTextBoxRect;
+
         //refereeRect = {refereeCenterX, refereeCenterY, REFEREE_STANDUP_WIDTH, REFEREE_STANDUP_HEIGHT}; 
 
         //SDL_RenderCopyEx(renderer, refereeStandUpTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
 
         uint64_t currentTime = SDL_GetPerformanceCounter();
-        double deltaTime = (double)(currentTime - yukoAnimationStartTime) / (double)frequency;
+        double deltaTime = (double)(currentTime - animationStartTime) / (double)frequency;
 
         // Check if animation needs to be played
         if (isYukoLeftAnimationPlaying) {
-            if (deltaTime >= 3.0) {  // Animation duration is 5 seconds
+            if (deltaTime >= 1.0) {  // Animation duration is 5 seconds
             isYukoLeftAnimationPlaying = false;
             } else {
                 // Render Text Box
@@ -423,6 +572,42 @@ int main(int argc, char** argv){
                 yukoTextBoxCenterY = ((screenHeight - YUKO_TEXTBOX_HEIGHT) / 2)-290;
                 yukoTextBoxRect = {yukoTextBoxCenterX, yukoTextBoxCenterY, YUKO_TEXTBOX_WIDTH, YUKO_TEXTBOX_HEIGHT};
                 SDL_RenderCopyEx(renderer, yukoTextBoxTexture, NULL, &yukoTextBoxRect, 0, NULL, SDL_FLIP_NONE);
+
+
+                // Render referee with left point sprite
+                refereeCenterX = (screenWidth - REFEREE_LEFTPOINT_WIDTH) / 2;
+                refereeCenterY = ((screenHeight - REFEREE_LEFTPOINT_HEIGHT) / 2)-250;
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
+        } else if (isWazariLeftAnimationPlaying) {
+            if (deltaTime >= 1.0) {  // Animation duration is 5 seconds
+            isWazariLeftAnimationPlaying = false;
+            } else {
+                // Render Text Box
+
+                wazariTextBoxCenterX = ((screenWidth - WAZARI_TEXTBOX_WIDTH) / 2);
+                wazariTextBoxCenterY = ((screenHeight - WAZARI_TEXTBOX_HEIGHT) / 2)-290;
+                wazariTextBoxRect = {wazariTextBoxCenterX, wazariTextBoxCenterY, WAZARI_TEXTBOX_WIDTH, WAZARI_TEXTBOX_HEIGHT};
+                SDL_RenderCopyEx(renderer, wazariTextBoxTexture, NULL, &wazariTextBoxRect, 0, NULL, SDL_FLIP_NONE);
+
+
+                // Render referee with left point sprite
+                refereeCenterX = (screenWidth - REFEREE_LEFTPOINT_WIDTH) / 2;
+                refereeCenterY = ((screenHeight - REFEREE_LEFTPOINT_HEIGHT) / 2)-250;
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
+        } else if (isIpponLeftAnimationPlaying) {
+            if (deltaTime >= 1.0) {  // Animation duration is 5 seconds
+            isIpponLeftAnimationPlaying = false;
+            } else {
+                // Render Text Box
+
+                ipponTextBoxCenterX = ((screenWidth - IPPON_TEXTBOX_WIDTH) / 2);
+                ipponTextBoxCenterY = ((screenHeight - IPPON_TEXTBOX_HEIGHT) / 2)-290;
+                ipponTextBoxRect = {ipponTextBoxCenterX, ipponTextBoxCenterY, IPPON_TEXTBOX_WIDTH, IPPON_TEXTBOX_HEIGHT};
+                SDL_RenderCopyEx(renderer, ipponTextBoxTexture, NULL, &ipponTextBoxRect, 0, NULL, SDL_FLIP_NONE);
 
 
                 // Render referee with left point sprite
@@ -471,15 +656,15 @@ int main(int argc, char** argv){
 
 
                     // Referee Call
-
                     
                     // Start animation
                     isYukoLeftAnimationPlaying = true;
-                    yukoAnimationStartTime = SDL_GetPerformanceCounter();
+                    animationStartTime = SDL_GetPerformanceCounter();
 
                     refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT}; 
 
                     SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+                    // End Animation
 
                     match->getKaratekaA()->setPoints("yuko");
                     match = setKaratekasStartPosition(match, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT);
@@ -510,6 +695,20 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
                 // Wazari Call
                 cout<<"Wazari!"<<endl;
+
+                
+                // Referee Call
+                    
+                // Start animation
+                isWazariLeftAnimationPlaying = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT}; 
+
+                SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+                // End Animation
+
+
                 match->getKaratekaA()->setPoints("wazari");
 
                 match = setKaratekasStartPosition(match, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT);
@@ -547,6 +746,19 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
                 // Ippon Call
                 cout<<"Ippon!"<<endl;
+
+                // Referee Call
+                    
+                // Start animation
+                isIpponLeftAnimationPlaying = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT}; 
+
+                SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+                // End Animation
+
+
                 match->getKaratekaA()->setPoints("ippon");
 
                 match = setKaratekasStartPosition(match, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT);
@@ -572,7 +784,19 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
                 // Yuko Call
+
                 cout<<"Yuko!"<<endl;
+
+                // Referee Call
+                    
+                // Start animation
+                isYukoLeftAnimationPlaying = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT}; 
+
+                SDL_RenderCopyEx(renderer, refereeLeftPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+                // End Animation
 
                 match->getKaratekaA()->setPoints("yuko");
                 match = setKaratekasStartPosition(match, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT);
