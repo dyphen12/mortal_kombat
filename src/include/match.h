@@ -11,6 +11,7 @@ private:
   int k1R;
   int k2R;
   int duration;
+  double timeLeft;
 
 
 public:
@@ -21,6 +22,8 @@ public:
   void printMatchNames();
   Karateka* getKaratekaA();
   Karateka* getKaratekaB();
+  void setTimeLeft(double remainingTime);
+  double getTimeLeft();
 };
 
 
@@ -31,7 +34,10 @@ private:
   bool isWazari;
   bool isIppon;
 public:
-    Referee(); 
+    Referee(Match* match){
+      this->match = match;
+
+    } 
 
     string callMovement(string movement){
       if (movement == "yuko"){
@@ -44,8 +50,28 @@ public:
       
     }
 
-    string declareWinner(){
-      return "winner";
+    Karateka* declareWinner(){
+
+      if(this->match->getKaratekaA()->getPoints() - this->match->getKaratekaB()->getPoints() >= 8){
+
+        //cout<<"The Winner is "<<match->getKaratekaA()->getName()<<endl;
+        return match->getKaratekaA();
+      } else if (this->match->getTimeLeft() <= 0.0) {
+
+        if(this->match->getKaratekaA()->getPoints() > this->match->getKaratekaB()->getPoints()){
+          return match->getKaratekaA();
+
+        } else {
+          return match->getKaratekaB();
+        }
+      } else if(this->match->getKaratekaB()->getPoints() - this->match->getKaratekaA()->getPoints() >= 8){
+
+        //cout<<"The Winner is "<<match->getKaratekaA()->getName()<<endl;
+        return match->getKaratekaB();
+      } else {
+        return NULL;
+      }
+   
     }
 
     string callPenalty(){

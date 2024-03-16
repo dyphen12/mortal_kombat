@@ -32,4 +32,11 @@ Karateka* Match::getKaratekaB(){
   return this->k2;
 }
 
+void Match::setTimeLeft(double remainingTime){
+  this->timeLeft = remainingTime;
 
+}
+
+double Match::getTimeLeft(){
+  return this->timeLeft;
+}

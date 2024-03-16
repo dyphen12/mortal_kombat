@@ -496,6 +496,8 @@ int main(int argc, char** argv){
 
     matchStartTime = SDL_GetPerformanceCounter();
 
+    Referee* referee = new Referee(match);
+
      // Main loop
     bool running = true;
     while (running) {
@@ -936,6 +938,7 @@ int main(int argc, char** argv){
                     karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
 
                     match->getKaratekaA()->updateMatchState();
+                    match->getKaratekaB()->updateMatchState();
                     matchState->printState();
 
                 }
@@ -976,6 +979,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
 
                 match->getKaratekaA()->updateMatchState();
+                match->getKaratekaB()->updateMatchState();
                 matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
@@ -1022,6 +1026,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
 
                 match->getKaratekaA()->updateMatchState();
+                match->getKaratekaB()->updateMatchState();
                 matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
@@ -1056,6 +1061,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
 
                 match->getKaratekaA()->updateMatchState();
+                match->getKaratekaB()->updateMatchState();
                 matchState->printState();
                 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
@@ -1104,6 +1110,7 @@ int main(int argc, char** argv){
                 karatekaCenterX = match->getKaratekaA()->getPositionVector()->x;
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
+                match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement == "block"){
@@ -1136,6 +1143,7 @@ int main(int argc, char** argv){
                 karatekaCenterX = match->getKaratekaA()->getPositionVector()->x;
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
+                match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement == "block"){
@@ -1164,15 +1172,23 @@ int main(int argc, char** argv){
         match->getKaratekaA()->updateMatchState();
         match->getKaratekaB()->updateMatchState();
 
+        match->setTimeLeft(remainingTime);
+
+        Karateka* winner = referee->declareWinner();
+
+        if (winner != NULL){
+            cout<<"The Winner is "<<winner->getName()<<endl;
+            running = false;
+        }
+
         //match->getKaratekaA()->getMatchState()->printState();
-
-
-   
 
 
         // ALWAYS RENDER THE PRESENT
         // Update the screen
         SDL_RenderPresent(renderer);
+
+
 
         
     }
