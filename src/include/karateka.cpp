@@ -68,9 +68,24 @@ void Karateka::updatePosition(string movement) {
     } else if (movement == "left") {
         this->posvec->y += speed; // Update y-coordinate for down movement
     } else if (movement == "backward") {
-        this->posvec->x -= speed; // Update x-coordinate for left movement
+        this->posvec->x += speed; // Update x-coordinate for left movement
     } else if (movement == "forward") {
-        this->posvec->x += speed; // Update x-coordinate for right movement
+        this->posvec->x -= speed; // Update x-coordinate for right movement
+    } else {
+        cerr << "Invalid movement direction: " << movement << endl; // Log error message
+        // Optionally: throw an exception for further handling
+    }
+}
+
+void Karateka::updatePositionRecoil(string movement) {
+    if (movement == "right") {
+        this->posvec->y += 8; // Update y-coordinate for up movement
+    } else if (movement == "left") {
+        this->posvec->y -= 8; // Update y-coordinate for down movement
+    } else if (movement == "backward") {
+        this->posvec->x -= 8; // Update x-coordinate for left movement
+    } else if (movement == "forward") {
+        this->posvec->x += 8; // Update x-coordinate for right movement
     } else {
         cerr << "Invalid movement direction: " << movement << endl; // Log error message
         // Optionally: throw an exception for further handling
@@ -170,7 +185,7 @@ void Karateka::updateMatchState() {
     this->MatchState->distanceToOpponent = this->MatchState->calculateDistanceToOpponent();
 }
 
-string Karateka::punch(string option, int rn) {
+string Karateka::punch(string option) {
     // Provide an implementation (e.g., basic punch)
     return "Basic punch";
 }
@@ -180,29 +195,44 @@ string Karateka::manualkick(string option) {
     return "Basic punch";
 }
 
-string Karateka::kick(string option, int rn) {
+string Karateka::kick(string option) {
     // Provide an implementation (e.g., basic punch)
     return "Basic punch";
 }
 
 
-string Karateka::block(int rn) {
+string Karateka::block() {
     // Provide an implementation (e.g., basic punch)
     return "Basic punch";
+}
+
+DecisionMaker* Karateka::getDecisionMaker(){
+    return this->decisionMaker;
+}
+
+string Karateka::getDecision(){
+    string decision = this->decisionMaker->getDecision(this->getMatchState());
+    return decision;
+}
+
+string Karateka::getMovement(){
+    string movement = this->decisionMaker->getMovement(this->getMatchState());
+    return movement;
 }
 
 
 Shotokan::Shotokan(int i) : Karateka(i) {
     this->setStyle("shotokan");
+    this->decisionMaker = new DecisionMaker(this->getStyle());
 }
 
-string Shotokan::punch(string option, int rn) {
-    int random_number = rn;
+string Shotokan::punch(string option) {
+    
 
-    if (option == "oi-zuki" && random_number == 2) {
+    if (option == "oi-zuki") {
         this->setMatchStateMovement("oi-zuki");
         return "oi-zuki";
-    } else if (option == "gyaku-zuki" && random_number == 4) {
+    } else if (option == "gyaku-zuki") {
         this->setMatchStateMovement("gyaku-zuki");
         return "gyaku-zuki";
     } else {
@@ -210,13 +240,13 @@ string Shotokan::punch(string option, int rn) {
     }
 }
 
-string Shotokan::kick(string option, int rn) {
-    int random_number = rn;
+string Shotokan::kick(string option) {
+    
 
-    if (option == "mae-geri" && random_number == 2) {
+    if (option == "mae-geri") {
         this->setMatchStateMovement("mae-geri");
         return "mae-geri";
-    } else if (option == "yoko-geri" && random_number == 4) {
+    } else if (option == "yoko-geri") {
         this->setMatchStateMovement("yoko-geri");
         return "yoko-geri";
     } else {
@@ -225,7 +255,7 @@ string Shotokan::kick(string option, int rn) {
 }
 
 string Shotokan::manualkick(string option) {
-    int random_number = 2;
+
     if (option == "mae-geri") {
         this->setMatchStateMovement("mae-geri");
         return "mae-geri";
@@ -237,14 +267,11 @@ string Shotokan::manualkick(string option) {
     }
 }
 
-string Shotokan::block(int rn) {
-    int random_number = rn;
-    if (random_number == 2) {
-        this->setMatchStateMovement("block");
-        return "block";
-    } else {
-        return "fail";
-    }
+string Shotokan::block() {
+    
+    this->setMatchStateMovement("block");
+    return "block";
+
 }
 
 

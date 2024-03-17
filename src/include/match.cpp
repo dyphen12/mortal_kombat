@@ -40,3 +40,11 @@ void Match::setTimeLeft(double remainingTime){
 double Match::getTimeLeft(){
   return this->timeLeft;
 }
+
+void Match::setWinner(Karateka* winner){
+  this->winner = winner;
+}
+
+Karateka* Match::getWinner(){
+  return this->winner;
+}

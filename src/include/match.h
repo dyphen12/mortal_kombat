@@ -24,6 +24,8 @@ public:
   Karateka* getKaratekaB();
   void setTimeLeft(double remainingTime);
   double getTimeLeft();
+  void setWinner(Karateka* winner);
+  Karateka* getWinner();
 };
 
 

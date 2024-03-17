@@ -5,7 +5,8 @@
 #include <string>
 #include <cmath>
 #include <SDL2/SDL.h>
-#include "state.h"
+//#include "state.h"
+#include "decisionmaker.hpp"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ protected:
     State *MatchState;
     string arenaSide;
     SDL_Rect *karatekaRect;
+    DecisionMaker *decisionMaker;
 
 public:
     Karateka(int i);
@@ -46,6 +48,8 @@ public:
     void printOpponent();
 
     void updatePosition(string movement);
+
+    void updatePositionRecoil(string movement);
 
     void receiveAttack();
 
@@ -71,26 +75,33 @@ public:
 
     void updateMatchState();
 
-    virtual string punch(string option, int rn);
+    virtual string punch(string option);
 
-    virtual string kick(string option, int rn);
+    virtual string kick(string option);
 
     virtual string manualkick(string option);
 
-    virtual string block(int rn);
+    virtual string block();
+
+    DecisionMaker* getDecisionMaker();
+
+    virtual string getDecision();
+
+    virtual string getMovement();
+    
 };
 
 class Shotokan : public Karateka {
 public:
     Shotokan(int i);
 
-    string punch(string option, int rn);
+    string punch(string option);
 
-    string kick(string option, int rn);
+    string kick(string option);
 
     string manualkick(string option);
 
-    string block(int rn);
+    string block();
 };
 
 class K20 : public Karateka {
