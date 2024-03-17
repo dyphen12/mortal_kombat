@@ -6,7 +6,7 @@ Karateka::Karateka(int i) {
     this->opponent = NULL;
     this->speed = 1;
     this->MatchState = new State(); // Initialize MatchState
-    this->MatchState->movement = "stand-up";
+    this->MatchState->setKaratekaMovement("stand-up");
     this->arenaSide = "Null";
 }
 
@@ -109,7 +109,7 @@ State *Karateka::getMatchState() {
 }
 
 void Karateka::setMatchStateMovement(string movement) {
-    this->MatchState->movement = movement;
+    this->MatchState->setKaratekaMovement(movement);
 }
 
 bool Karateka::checkCollision(SDL_Rect a, SDL_Rect b) {
@@ -171,18 +171,18 @@ SDL_Rect *Karateka::getKaratekaRect() {
 
 void Karateka::updateMatchState() {
     // Update match state with current information
-    this->MatchState->karatekaLastAction = this->MatchState->movement;
-    this->MatchState->karatekaPos = this->getPositionVector();
-    this->MatchState->karatekaPoints = this->getPoints();
+    this->MatchState->setKaratekaLastAction(this->MatchState->getKaratekaMovement());
+    this->MatchState->setKaratekaPositionVector(this->getPositionVector());
+    this->MatchState->setKaratekaPoints(this->getPoints());
 
-    this->MatchState->opponentLastAction = this->opponent->MatchState->movement;
-    this->MatchState->opponentPos = this->opponent->getPositionVector();
-    this->MatchState->opponentPoints = this->opponent->getPoints();
+    this->MatchState->setOpponentLastAction(this->opponent->MatchState->getKaratekaMovement());
+    this->MatchState->setOpponentPosition(this->opponent->getPositionVector());
+    this->MatchState->setOpponentPoints(this->opponent->getPoints());
 
     SDL_Rect *opponentRect = this->opponent->getKaratekaRect();
-    this->MatchState->isColliding = this->checkCollision(*karatekaRect, *opponentRect);
+    this->MatchState->setIsColliding(this->checkCollision(*karatekaRect, *opponentRect));
 
-    this->MatchState->distanceToOpponent = this->MatchState->calculateDistanceToOpponent();
+    this->MatchState->setDistanceToOpponent(this->MatchState->calculateDistanceToOpponent());
 }
 
 string Karateka::punch(string option) {

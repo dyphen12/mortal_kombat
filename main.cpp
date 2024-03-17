@@ -450,6 +450,7 @@ int main(int argc, char** argv){
     PositionVector* postemp = A->getPositionVector(); // PositionVector Test
     cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
     int q = A->getPositionVector()->x;
+    
 
     A->setArenaSide("left");
     cout<<"Arena side = "<<A->getArenaSide()<<endl;
@@ -468,6 +469,7 @@ int main(int argc, char** argv){
     
     B->setArenaSide("right");
     cout<<"Arena side = "<<B->getArenaSide()<<endl;
+    
 
 
     // Setting Match
@@ -475,22 +477,28 @@ int main(int argc, char** argv){
     Match* match = new Match(A,B);
     match->printMatchNames();
     match->simulateMatch();
+    match->getKaratekaA()->getMatchState()->setKaratekaPositionVector(posvk1);
+    match->getKaratekaA()->getMatchState()->setOpponentPosition(posvk2);
+    match->getKaratekaB()->getMatchState()->setKaratekaPositionVector(posvk2);
+    match->getKaratekaB()->getMatchState()->setOpponentPosition(posvk1);
 
     State* matchState = match->getKaratekaA()->getMatchState();
 
-    cout<<"sadf: "<<match->getKaratekaA()->getMatchState()->karatekaLastAction<<endl;
+    // cout<<"sadf: "<<match->getKaratekaA()->getMatchState()->getKaratekaLastAction()<<endl;
+
+    
+    
 
     /*
 
-    if(match->getKaratekaA()->getMatchState()->karatekaPoints == NULL){
+    if(match->getKaratekaA()->getMatchState()->getKaratekaPosition() == NULL){
             cout << "Shit is NULL" << endl;
         } else {
-            cout << "State Debug: " << match->getKaratekaA()->getMatchState()->karatekaPoints << endl;
+            cout << "State Debug: " << match->getKaratekaA()->getMatchState()->getKaratekaPosition()->x << endl;
         }
     
     */
-
-    
+    match->getKaratekaA()->getMatchState()->printState();
 
     
     
@@ -975,7 +983,7 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding){
                 
-                if (match->getKaratekaB()->getMatchState()->movement == "block"){
+                if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                     //cout<<"Attack Blocked!"<<endl;
                     
                 } else {
@@ -1017,7 +1025,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Wazari Call
                 cout<<"Wazari!"<<endl;
 
@@ -1040,7 +1048,7 @@ int main(int argc, char** argv){
                 match->getKaratekaB()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
@@ -1065,7 +1073,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
                 cout<<"Ippon!"<<endl;
 
@@ -1087,7 +1095,7 @@ int main(int argc, char** argv){
                 match->getKaratekaB()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
@@ -1101,7 +1109,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Yuko Call
 
                 cout<<"Yuko!"<<endl;
@@ -1122,7 +1130,7 @@ int main(int argc, char** argv){
                 match->getKaratekaB()->updateMatchState();
                 matchState->printState();
                 
-            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
@@ -1196,7 +1204,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
                 cout<<"Yuko!"<<endl;
@@ -1214,7 +1222,7 @@ int main(int argc, char** argv){
                 match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             } 
 
@@ -1232,7 +1240,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 cout<<"Yuko!"<<endl;
                 match->getKaratekaB()->setPoints("yuko");
@@ -1249,7 +1257,7 @@ int main(int argc, char** argv){
                 match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
@@ -1271,7 +1279,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
                 cout<<"Ippon!"<<endl;
 
@@ -1293,7 +1301,7 @@ int main(int argc, char** argv){
                 match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
@@ -1307,7 +1315,7 @@ int main(int argc, char** argv){
 
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
-            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
                 cout<<"Wazari!"<<endl;
 
@@ -1329,7 +1337,7 @@ int main(int argc, char** argv){
                 match->getKaratekaA()->updateMatchState();
                 matchState->printState();
 
-            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
