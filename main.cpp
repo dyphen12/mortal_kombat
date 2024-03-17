@@ -489,6 +489,10 @@ int main(int argc, char** argv){
 
     bool isYukoRightAnimationPlaying = false;  // Flag to track animation state
 
+    bool isIpponRightAnimationPlaying = false;  // Flag to track animation state
+
+    bool isWazariRightAnimationPlaying = false;  // Flag to track animation state
+
 
     uint64_t matchStartTime;  // Time when the match starts
     const double matchDuration = 3.0 * 60.0;  // Match duration in seconds (3 minutes)
@@ -732,7 +736,7 @@ int main(int argc, char** argv){
             SDL_RenderCopy(renderer, twoTexture, NULL, &digit2Rect);
         } else if (minutes == 1){
             SDL_RenderCopy(renderer, oneTexture, NULL, &digit2Rect);
-        } else if (minutes == 0){
+        } else if (minutes >= 0){
             SDL_RenderCopy(renderer, zeroTexture, NULL, &digit2Rect);
         }
 
@@ -780,7 +784,7 @@ int main(int argc, char** argv){
             SDL_RenderCopy(renderer, twoTexture, NULL, &digit4Rect);
         } else if (lastDigit == 1){
             SDL_RenderCopy(renderer, oneTexture, NULL, &digit4Rect);
-        } else if (lastDigit == 0){
+        } else if (lastDigit >= 0){
             SDL_RenderCopy(renderer, zeroTexture, NULL, &digit4Rect);
         }
 
@@ -879,6 +883,39 @@ int main(int argc, char** argv){
 
                 // Render referee with Right point sprite
                 refereeRect = {refereeCenterX, refereeCenterY, REFEREE_RIGHTPOINT_WIDTH, REFEREE_RIGHTPOINT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereeRightPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
+        } else if (isIpponRightAnimationPlaying) {
+            if (deltaTime >= 1.0) {  // Animation duration is 5 seconds
+            isIpponRightAnimationPlaying = false;
+            } else {
+                // Render Text Box
+
+                ipponTextBoxCenterX = ((screenWidth - IPPON_TEXTBOX_WIDTH) / 2);
+                ipponTextBoxCenterY = ((screenHeight - IPPON_TEXTBOX_HEIGHT) / 2)-290;
+                ipponTextBoxRect = {ipponTextBoxCenterX, ipponTextBoxCenterY, IPPON_TEXTBOX_WIDTH, IPPON_TEXTBOX_HEIGHT};
+                SDL_RenderCopyEx(renderer, ipponTextBoxTexture, NULL, &ipponTextBoxRect, 0, NULL, SDL_FLIP_NONE);
+
+
+                // Render referee with left point sprite
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_RIGHTPOINT_WIDTH, REFEREE_RIGHTPOINT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereeRightPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
+        } else if (isWazariRightAnimationPlaying) {
+            if (deltaTime >= 1.0) {  // Animation duration is 5 seconds
+            isWazariRightAnimationPlaying = false;
+            } else {
+                // Render Text Box
+
+                wazariTextBoxCenterX = ((screenWidth - WAZARI_TEXTBOX_WIDTH) / 2);
+                wazariTextBoxCenterY = ((screenHeight - WAZARI_TEXTBOX_HEIGHT) / 2)-290;
+                wazariTextBoxRect = {wazariTextBoxCenterX, wazariTextBoxCenterY, WAZARI_TEXTBOX_WIDTH, WAZARI_TEXTBOX_HEIGHT};
+                SDL_RenderCopyEx(renderer, wazariTextBoxTexture, NULL, &wazariTextBoxRect, 0, NULL, SDL_FLIP_NONE);
+
+
+                // Render referee with Right point sprite
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_LEFTPOINT_WIDTH, REFEREE_LEFTPOINT_HEIGHT};
                 SDL_RenderCopyEx(renderer, refereeRightPointTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
             }
         } else {
@@ -1091,7 +1128,7 @@ int main(int argc, char** argv){
         //B->updatePosition("forward");
         
         // if match->getKaratekaB()->getDecision() == "oi-zuki"
-        if (match->getKaratekaB()->punch("oi-zuki", rng()) == "oi-zuki"){
+        if (match->getKaratekaB()->punch("oi-zuki", rng()) == "oi-zuki"){ //match->getKaratekaB()->punch("oi-zuki", rng()) == "oi-zuki"
 
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
@@ -1121,7 +1158,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (match->getKaratekaB()->punch("gyaku-zuki", rng()) == "gyaku-zuki"){
+        } else if (match->getKaratekaB()->punch("gyaku-zuki", rng()) == "gyaku-zuki"){ //(match->getKaratekaB()->punch("gyaku-zuki", rng()) == "gyaku-zuki"
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT}; 
 
@@ -1150,13 +1187,81 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (match->getKaratekaB()->block(rng()) == "block"){
+        } else if (match->getKaratekaB()->block(rng()) == "block"){ //match->getKaratekaB()->block(rng()) == "block"
 
             string result = match->getKaratekaB()->block(rng());
 
             karatekaRect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_AGEUKE_WIDTH, KARATEKA_AGEUKE_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
+            
+        } else if (match->getKaratekaB()->kick("yoko-geri", rng()) == "yoko-geri"){ // YOKO GERI // (match->getKaratekaB()->kick("yoko-geri", rng()) == "yoko-geri"
+
+            karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT}; 
+
+            SDL_RenderCopyEx(renderer, karateka2YokoGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
+
+            bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
+
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+                // Ippon Call
+                cout<<"Ippon!"<<endl;
+
+                // Referee Call
+                    
+                // Start animation
+                isIpponRightAnimationPlaying = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+                // End Animation
+
+
+                match->getKaratekaB()->setPoints("ippon");
+
+                match = setKaratekasStartPosition(match, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT);
+                karatekaCenterX = match->getKaratekaA()->getPositionVector()->x;
+                karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
+
+                match->getKaratekaB()->updateMatchState();
+                match->getKaratekaA()->updateMatchState();
+                matchState->printState();
+
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+                //cout<<"Attack Blocked!"<<endl;
+            }
+            
+        } else if (match->getKaratekaB()->kick("mae-geri", rng()) == "mae-geri"){ // MAE GERI
+
+            karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; 
+
+            SDL_RenderCopyEx(renderer, karateka2MaeGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
+
+            bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
+
+            if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->movement != "block"){
+                // Ippon Call
+                cout<<"Wazari!"<<endl;
+
+                // Referee Call
+                    
+                // Start animation
+                isWazariRightAnimationPlaying = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+                // End Animation
+
+
+                match->getKaratekaB()->setPoints("wazari");
+
+                match = setKaratekasStartPosition(match, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT);
+                karatekaCenterX = match->getKaratekaA()->getPositionVector()->x;
+                karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
+
+                match->getKaratekaB()->updateMatchState();
+                match->getKaratekaA()->updateMatchState();
+                matchState->printState();
+
+            } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->movement == "block"){
+                //cout<<"Attack Blocked!"<<endl;
+            }
             
         } else {
 
