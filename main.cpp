@@ -930,6 +930,10 @@ int main(int argc, char** argv){
 
 
         bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
+
+        /*
+        
+        */
         
         // Update karateka position based on movement flags
         if (isMovingRight && !isMovingLeft) {
@@ -1153,9 +1157,9 @@ int main(int argc, char** argv){
         // KARATEKA 2 // Simulated
 
         
+        //cout<<"Movement Decision: "<<match->getKaratekaB()->getMovement()<<endl;
 
-
-        if (match->getKaratekaB()->getMovement() == "left" && match->getKaratekaB()->getMovement() != "right"){
+        if (match->getKaratekaB()->getYMovement() == "left" && match->getKaratekaB()->getYMovement() != "right"){
 
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("left");
@@ -1163,7 +1167,7 @@ int main(int argc, char** argv){
                 match->getKaratekaB()->updatePositionRecoil("left");
             }
             
-        } else if (match->getKaratekaB()->getMovement() == "right" && match->getKaratekaB()->getMovement() != "left"){
+        } else if (match->getKaratekaB()->getYMovement() == "right" && match->getKaratekaB()->getYMovement() != "left"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("right");
             } else {
@@ -1172,7 +1176,7 @@ int main(int argc, char** argv){
             
         } 
 
-        if (match->getKaratekaB()->getMovement() == "forward" && match->getKaratekaB()->getMovement() != "backward"){
+        if (match->getKaratekaB()->getXMovement() == "forward" && match->getKaratekaB()->getXMovement() != "backward"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("forward");
             } else {
@@ -1182,7 +1186,7 @@ int main(int argc, char** argv){
             
 
             
-        } else if (match->getKaratekaB()->getMovement() == "backward" && match->getKaratekaB()->getMovement() != "forward"){
+        } else if (match->getKaratekaB()->getXMovement() == "backward" && match->getKaratekaB()->getXMovement() != "forward"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("backward");
 

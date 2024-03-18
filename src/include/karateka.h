@@ -88,6 +88,10 @@ public:
     virtual string getDecision();
 
     virtual string getMovement();
+
+    virtual string getXMovement();
+
+    virtual string getYMovement();
     
 };
 

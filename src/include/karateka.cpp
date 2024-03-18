@@ -220,6 +220,16 @@ string Karateka::getMovement(){
     return movement;
 }
 
+string Karateka::getXMovement(){
+    string movement = this->decisionMaker->getXMovement(this->getMatchState());
+    return movement;
+}
+
+string Karateka::getYMovement(){
+    string movement = this->decisionMaker->getYMovement(this->getMatchState());
+    return movement;
+}
+
 
 Shotokan::Shotokan(int i) : Karateka(i) {
     this->setStyle("shotokan");

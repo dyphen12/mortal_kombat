@@ -94,5 +94,13 @@ public:
 
     }
 
+    PositionVector* getOpponentPosition(){
+        return this->opponentPos;
+    }
+
+    bool getIsColliding(){
+        return this->isColliding;
+    }
+
     
 };
