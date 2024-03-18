@@ -1371,7 +1371,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (isBKeyPressed){ //match->getKaratekaB()->getDecision() == "block"
+        } else if (match->getKaratekaB()->getDecision() == "block"){ //match->getKaratekaB()->getDecision() == "block"
 
             string result = match->getKaratekaB()->block();
 
