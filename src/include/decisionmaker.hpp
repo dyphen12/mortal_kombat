@@ -14,53 +14,29 @@ class DecisionMaker {
     }
 
     string getDecision(State* matchState){
-        return "none";
+        return "block";
     }
 
 
-string getXMovement(State* matchState, string arenaSide) {
-    if (matchState->getIsColliding()) {
-        return "none"; // No movement if colliding
-    } else {
-        if(arenaSide == "right"){
-
-            int opponentX = matchState->getOpponentPosition()->x;
-        int opponentY = matchState->getOpponentPosition()->y;
-        int myX = matchState->getKaratekaPosition()->x;
-        int myY = matchState->getKaratekaPosition()->y;
-
-        // Calculate difference in x and y coordinates
-        int deltaX = myX - opponentX;
-        int deltaY = myY - opponentY;
-
-        //cout<<"Delta X = "<<deltaX<<endl;
-        //cout<<"Delta Y = "<<deltaY<<endl;
-
-       if (deltaX > 0) {
-            return "forward";
-        } else if (deltaX <= 45) {
-            return "backward";
+    string getXMovement(State* matchState, string arenaSide) {
+        if (matchState->getIsColliding()) {
+            return "none"; // No movement if colliding
         } else {
-            // No movement required
-            return "none";
-        }
+            if(arenaSide == "right"){
 
+                int opponentX = matchState->getOpponentPosition()->x;
+            int opponentY = matchState->getOpponentPosition()->y;
+            int myX = matchState->getKaratekaPosition()->x;
+            int myY = matchState->getKaratekaPosition()->y;
 
-        } else if(arenaSide == "left"){
+            // Calculate difference in x and y coordinates
+            int deltaX = myX - opponentX;
+            int deltaY = myY - opponentY;
 
-            int opponentX = matchState->getOpponentPosition()->x;
-        int opponentY = matchState->getOpponentPosition()->y;
-        int myX = matchState->getKaratekaPosition()->x;
-        int myY = matchState->getKaratekaPosition()->y;
+            //cout<<"Delta X = "<<deltaX<<endl;
+            //cout<<"Delta Y = "<<deltaY<<endl;
 
-        // Calculate difference in x and y coordinates
-        int deltaX = myX - opponentX;
-        int deltaY = myY - opponentY;
-
-        //cout<<"Delta X = "<<deltaX<<endl;
-        //cout<<"Delta Y = "<<deltaY<<endl;
-
-            if (deltaX > 0) {
+        if (deltaX > 0) {
                 return "forward";
             } else if (deltaX <= 45) {
                 return "backward";
@@ -70,21 +46,9 @@ string getXMovement(State* matchState, string arenaSide) {
             }
 
 
-        } else {
-            return "none";
-        }
+            } else if(arenaSide == "left"){
 
-    }
-}
-
-string getYMovement(State* matchState, string arenaSide) {
-    if (matchState->getIsColliding()) {
-        return "none"; // No movement if colliding
-    } else {
-
-        if(arenaSide == "right"){
-
-            int opponentX = matchState->getOpponentPosition()->x;
+                int opponentX = matchState->getOpponentPosition()->x;
             int opponentY = matchState->getOpponentPosition()->y;
             int myX = matchState->getKaratekaPosition()->x;
             int myY = matchState->getKaratekaPosition()->y;
@@ -93,45 +57,81 @@ string getYMovement(State* matchState, string arenaSide) {
             int deltaX = myX - opponentX;
             int deltaY = myY - opponentY;
 
+            //cout<<"Delta X = "<<deltaX<<endl;
+            //cout<<"Delta Y = "<<deltaY<<endl;
 
-            if (deltaY < 0) {
-                return "right";
-            } else if (deltaY > 0) {
-                    return "left";
+                if (deltaX > 0) {
+                    return "forward";
+                } else if (deltaX <= 45) {
+                    return "backward";
+                } else {
+                    // No movement required
+                    return "none";
+                }
+
+
             } else {
-                // No movement required
                 return "none";
             }
 
-        } else if(arenaSide == "right"){
+        }
+    }
 
-            int opponentX = matchState->getOpponentPosition()->x;
-            int opponentY = matchState->getOpponentPosition()->y;
-            int myX = matchState->getKaratekaPosition()->x;
-            int myY = matchState->getKaratekaPosition()->y;
+    string getYMovement(State* matchState, string arenaSide) {
+        if (matchState->getIsColliding()) {
+            return "none"; // No movement if colliding
+        } else {
 
-            // Calculate difference in x and y coordinates
-            int deltaX = myX - opponentX;
-            int deltaY = myY - opponentY;
+            if(arenaSide == "right"){
+
+                int opponentX = matchState->getOpponentPosition()->x;
+                int opponentY = matchState->getOpponentPosition()->y;
+                int myX = matchState->getKaratekaPosition()->x;
+                int myY = matchState->getKaratekaPosition()->y;
+
+                // Calculate difference in x and y coordinates
+                int deltaX = myX - opponentX;
+                int deltaY = myY - opponentY;
 
 
-            if (deltaY < 0) {
-                return "left";
-            } else if (deltaY > 0) {
+                if (deltaY < 0) {
                     return "right";
+                } else if (deltaY > 0) {
+                        return "left";
+                } else {
+                    // No movement required
+                    return "none";
+                }
+
+            } else if(arenaSide == "right"){
+
+                int opponentX = matchState->getOpponentPosition()->x;
+                int opponentY = matchState->getOpponentPosition()->y;
+                int myX = matchState->getKaratekaPosition()->x;
+                int myY = matchState->getKaratekaPosition()->y;
+
+                // Calculate difference in x and y coordinates
+                int deltaX = myX - opponentX;
+                int deltaY = myY - opponentY;
+
+
+                if (deltaY < 0) {
+                    return "left";
+                } else if (deltaY > 0) {
+                        return "right";
+                } else {
+                    // No movement required
+                    return "none";
+                }
+
             } else {
-                // No movement required
                 return "none";
             }
+            
 
-        } else {
-            return "none";
+            
         }
-        
-
-        
     }
-}
 
 
 };
