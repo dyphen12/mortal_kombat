@@ -215,18 +215,13 @@ string Karateka::getDecision(){
     return decision;
 }
 
-string Karateka::getMovement(){
-    string movement = this->decisionMaker->getMovement(this->getMatchState());
-    return movement;
-}
-
 string Karateka::getXMovement(){
-    string movement = this->decisionMaker->getXMovement(this->getMatchState());
+    string movement = this->decisionMaker->getXMovement(this->getMatchState(), this->arenaSide);
     return movement;
 }
 
 string Karateka::getYMovement(){
-    string movement = this->decisionMaker->getYMovement(this->getMatchState());
+    string movement = this->decisionMaker->getYMovement(this->getMatchState(), this->arenaSide);
     return movement;
 }
 

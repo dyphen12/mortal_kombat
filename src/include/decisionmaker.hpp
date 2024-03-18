@@ -64,11 +64,13 @@ class DecisionMaker {
     }
 }
 
-string getXMovement(State* matchState) {
+string getXMovement(State* matchState, string arenaSide) {
     if (matchState->getIsColliding()) {
         return "none"; // No movement if colliding
     } else {
-        int opponentX = matchState->getOpponentPosition()->x;
+        if(arenaSide == "right"){
+
+            int opponentX = matchState->getOpponentPosition()->x;
         int opponentY = matchState->getOpponentPosition()->y;
         int myX = matchState->getKaratekaPosition()->x;
         int myY = matchState->getKaratekaPosition()->y;
@@ -80,22 +82,6 @@ string getXMovement(State* matchState) {
         cout<<"Delta X = "<<deltaX<<endl;
         cout<<"Delta Y = "<<deltaY<<endl;
 
-        /*
-        // Determine movement direction based on relative positions
-        if (deltaX < 0) {
-            return "right";
-        } else if (deltaX > 0) {
-            return "left";
-        } else if (deltaY < 0) {
-            return "down";
-        } else if (deltaY > 0) {
-            return "up";
-        } else {
-            // No movement required
-            return "none";
-        }
-        */
-
        if (deltaX > 0) {
             return "forward";
         } else if (deltaX <= 45) {
@@ -105,54 +91,44 @@ string getXMovement(State* matchState) {
             return "none";
         }
 
-       //return "none";
 
-        
+        } else {
+            return "none";
+        }
+
     }
 }
 
-string getYMovement(State* matchState) {
+string getYMovement(State* matchState, string arenaSide) {
     if (matchState->getIsColliding()) {
         return "none"; // No movement if colliding
     } else {
-        int opponentX = matchState->getOpponentPosition()->x;
-        int opponentY = matchState->getOpponentPosition()->y;
-        int myX = matchState->getKaratekaPosition()->x;
-        int myY = matchState->getKaratekaPosition()->y;
 
-        // Calculate difference in x and y coordinates
-        int deltaX = myX - opponentX;
-        int deltaY = myY - opponentY;
+        if(arenaSide == "right"){
 
-        //cout<<"Delta X = "<<deltaX<<endl;
-        //cout<<"Delta Y = "<<deltaY<<endl;
+            int opponentX = matchState->getOpponentPosition()->x;
+            int opponentY = matchState->getOpponentPosition()->y;
+            int myX = matchState->getKaratekaPosition()->x;
+            int myY = matchState->getKaratekaPosition()->y;
 
-        /*
-        // Determine movement direction based on relative positions
-        if (deltaX < 0) {
-            return "right";
-        } else if (deltaX > 0) {
-            return "left";
-        } else if (deltaY < 0) {
-            return "down";
-        } else if (deltaY > 0) {
-            return "up";
+            // Calculate difference in x and y coordinates
+            int deltaX = myX - opponentX;
+            int deltaY = myY - opponentY;
+
+
+        if (deltaY < 0) {
+                return "left";
+            } else if (deltaY > 0) {
+                return "right";
+            } else {
+                // No movement required
+                return "none";
+            }
+
         } else {
-            // No movement required
             return "none";
         }
-        */
-
-       if (deltaY < 0) {
-            return "left";
-        } else if (deltaY > 0) {
-            return "right";
-        } else {
-            // No movement required
-            return "none";
-        }
-
-       //return "none";
+        
 
         
     }
