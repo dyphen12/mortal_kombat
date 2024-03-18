@@ -450,6 +450,9 @@ int main(int argc, char** argv){
     PositionVector* postemp = A->getPositionVector(); // PositionVector Test
     cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
     int q = A->getPositionVector()->x;
+    posvk1->x = karatekaCenterX;
+    posvk1->y = karatekaCenterY;
+    
     
 
     A->setArenaSide("left");
@@ -932,9 +935,7 @@ int main(int argc, char** argv){
         bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
 
         /*
-        
-        */
-        
+
         // Update karateka position based on movement flags
         if (isMovingRight && !isMovingLeft) {
             if(!areKaratekasColliding){
@@ -977,6 +978,56 @@ int main(int argc, char** argv){
 
 
         //cout<<"posvk1: "<<posvk1->x<<endl;
+        
+        */
+
+        
+
+        match->getKaratekaA()->setPosition(posvk1);
+
+        if (match->getKaratekaA()->getYMovement() == "left" && match->getKaratekaA()->getYMovement() != "right"){
+
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("left");
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("left");
+                }
+                
+            } else if (match->getKaratekaA()->getYMovement() == "right" && match->getKaratekaA()->getYMovement() != "left"){
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("right");
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("right");
+                }
+                
+            } 
+
+            if (match->getKaratekaA()->getXMovement() == "forward" && match->getKaratekaA()->getXMovement() != "backward"){
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("forward");
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("forward");
+                }
+
+                
+
+                
+            } else if (match->getKaratekaA()->getXMovement() == "backward" && match->getKaratekaA()->getXMovement() != "forward"){
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("backward");
+
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("backward");
+                }
+
+                
+            } 
+
+        
+
+
+        
+        
 
 
         if (isMKeyPressed){ // if(decisionMaker() == "oi-zuki")
