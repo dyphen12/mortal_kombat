@@ -27,7 +27,13 @@ class DecisionMaker {
         //cout<<matchState->getRotationAngle()<<endl;
         if (matchState->getIsColliding()) 
         {
-            if (chanceToHit < 30){
+            if (chanceToHit < 10){
+                return "yoko-geri";
+            } else if (chanceToHit < 20){
+                return "gyaku-zuki";
+            } else if (chanceToHit < 30){
+                return "mae-geri";
+            } else if (chanceToHit < 40){
                 return "oi-zuki";
             } else {
                 return "block";
@@ -46,7 +52,13 @@ class DecisionMaker {
                     if (chanceToGoLeft < 25){
                         return "right";
                     } else {
-                        return "backward";
+                        if (arenaSide == "right"){
+                            return "backward";
+
+                        } else {
+                            return "forward";
+                        }
+                        
                     }
                 }
 
