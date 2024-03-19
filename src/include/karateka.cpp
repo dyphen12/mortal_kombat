@@ -63,33 +63,80 @@ void Karateka::printOpponent() {
 }
 
 void Karateka::updatePosition(string movement) {
-    if (movement == "right") {
+
+    if(this->arenaSide == "right"){
+
+        if (movement == "right") {
         this->posvec->y -= speed; // Update y-coordinate for up movement
-    } else if (movement == "left") {
-        this->posvec->y += speed; // Update y-coordinate for down movement
-    } else if (movement == "backward") {
-        this->posvec->x += speed; // Update x-coordinate for left movement
-    } else if (movement == "forward") {
-        this->posvec->x -= speed; // Update x-coordinate for right movement
+        } else if (movement == "left") {
+            this->posvec->y += speed; // Update y-coordinate for down movement
+        } else if (movement == "backward") {
+            this->posvec->x += speed; // Update x-coordinate for left movement
+        } else if (movement == "forward") {
+            this->posvec->x -= speed; // Update x-coordinate for right movement
+        } else {
+            cerr << "Invalid movement direction: " << movement << endl; // Log error message
+            // Optionally: throw an exception for further handling
+        }
+
     } else {
-        cerr << "Invalid movement direction: " << movement << endl; // Log error message
-        // Optionally: throw an exception for further handling
+
+        if (movement == "right") {
+        this->posvec->y += speed; // Update y-coordinate for up movement
+        } else if (movement == "left") {
+            this->posvec->y -= speed; // Update y-coordinate for down movement
+        } else if (movement == "backward") {
+            this->posvec->x -= speed; // Update x-coordinate for left movement
+        } else if (movement == "forward") {
+            this->posvec->x += speed; // Update x-coordinate for right movement
+        } else {
+            cerr << "Invalid movement direction: " << movement << endl; // Log error message
+            // Optionally: throw an exception for further handling
+        }
+
     }
+
+    
 }
 
 void Karateka::updatePositionRecoil(string movement) {
-    if (movement == "right") {
+
+    if (this->arenaSide == "right"){
+
+        if (movement == "right") {
         this->posvec->y += 8; // Update y-coordinate for up movement
-    } else if (movement == "left") {
-        this->posvec->y -= 8; // Update y-coordinate for down movement
-    } else if (movement == "backward") {
-        this->posvec->x -= 8; // Update x-coordinate for left movement
-    } else if (movement == "forward") {
-        this->posvec->x += 8; // Update x-coordinate for right movement
+        } else if (movement == "left") {
+            this->posvec->y -= 8; // Update y-coordinate for down movement
+        } else if (movement == "backward") {
+            this->posvec->x -= 8; // Update x-coordinate for left movement
+        } else if (movement == "forward") {
+            this->posvec->x += 8; // Update x-coordinate for right movement
+        } else {
+            cerr << "Invalid movement direction: " << movement << endl; // Log error message
+            // Optionally: throw an exception for further handling
+        }
+
+
     } else {
-        cerr << "Invalid movement direction: " << movement << endl; // Log error message
-        // Optionally: throw an exception for further handling
+
+        if (movement == "left") {
+        this->posvec->y -= 8; // Update y-coordinate for up movement
+        } else if (movement == "left") {
+            this->posvec->y += 8; // Update y-coordinate for down movement
+        } else if (movement == "backward") {
+            this->posvec->x += 8; // Update x-coordinate for left movement
+        } else if (movement == "forward") {
+            this->posvec->x -= 8; // Update x-coordinate for right movement
+        } else {
+            cerr << "Invalid movement direction: " << movement << endl; // Log error message
+            // Optionally: throw an exception for further handling
+        }
+
     }
+
+
+
+    
 }
 
 void Karateka::receiveAttack() {
@@ -183,6 +230,7 @@ void Karateka::updateMatchState() {
     this->MatchState->setIsColliding(this->checkCollision(*karatekaRect, *opponentRect));
 
     this->MatchState->setDistanceToOpponent(this->MatchState->calculateDistanceToOpponent());
+    this->MatchState->setRotationAngle(this->getRotationAngle());
 }
 
 string Karateka::punch(string option) {
@@ -210,21 +258,10 @@ DecisionMaker* Karateka::getDecisionMaker(){
     return this->decisionMaker;
 }
 
-string Karateka::getDecision(){
-    string decision = this->decisionMaker->getDecision(this->getMatchState());
+string Karateka::getDecision(int rn){
+    string decision = this->decisionMaker->getDecision(this->getMatchState(), this->arenaSide, rn);
     return decision;
 }
-
-string Karateka::getXMovement(){
-    string movement = this->decisionMaker->getXMovement(this->getMatchState(), this->arenaSide);
-    return movement;
-}
-
-string Karateka::getYMovement(){
-    string movement = this->decisionMaker->getYMovement(this->getMatchState(), this->arenaSide);
-    return movement;
-}
-
 
 Shotokan::Shotokan(int i) : Karateka(i) {
     this->setStyle("shotokan");

@@ -85,11 +85,7 @@ public:
 
     DecisionMaker* getDecisionMaker();
 
-    virtual string getDecision();
-
-    virtual string getXMovement();
-
-    virtual string getYMovement();
+    virtual string getDecision(int rn);
     
 };
 

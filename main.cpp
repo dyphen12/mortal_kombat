@@ -85,12 +85,37 @@ bool isKKeyPressed = false;
 int karatekaSpriteSizeW;
 int karatekaSpriteSizeH;
 
-int rng(){
-    random_device rd;
-    mt19937 generator(rd());
-    uniform_int_distribution<int> distribution(1, 30); // Generates numbers between 1 and 10
-    int random_number = distribution(generator);
-    return random_number;
+// Function to generate a random number with seeding options
+int rngA(bool useSpecificSeed) {
+    static random_device rd; // Static to ensure initialization happens only once
+    static mt19937 generator(rd()); // Static to maintain generator state
+
+    int seedValue = 4444;
+
+    if (useSpecificSeed) {
+        generator.seed(seedValue);
+    } else {
+        generator.seed(rd()); // Seed with new random value
+    }
+
+    uniform_int_distribution<int> distribution(1, 100); // Generates numbers between 1 and 100
+    return distribution(generator);
+}
+
+int rngB(bool useSpecificSeed) {
+    static random_device rd; // Static to ensure initialization happens only once
+    static mt19937 generator(rd()); // Static to maintain generator state
+
+    int seedValue = 1235;
+
+    if (useSpecificSeed) {
+        generator.seed(seedValue);
+    } else {
+        generator.seed(rd()); // Seed with new random value
+    }
+
+    uniform_int_distribution<int> distribution(1, 100); // Generates numbers between 1 and 100
+    return distribution(generator);
 }
 
 Match* setKaratekasStartPosition(Match* match, int width, int height){
@@ -1012,10 +1037,12 @@ int main(int argc, char** argv){
         //isStartMatchAnimationPlaying = true;
         //animationStartTime = SDL_GetPerformanceCounter();
 
+        string karateka1Action = match->getKaratekaA()->getDecision(rngA(false));
+
 
         if(!wait){
 
-            if (match->getKaratekaA()->getYMovement() == "left" && match->getKaratekaA()->getYMovement() != "right"){
+            if (karateka1Action == "left"){
 
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("left");
@@ -1023,7 +1050,7 @@ int main(int argc, char** argv){
                     match->getKaratekaA()->updatePositionRecoil("left");
                 }
                 
-            } else if (match->getKaratekaA()->getYMovement() == "right" && match->getKaratekaA()->getYMovement() != "left"){
+            } else if (karateka1Action == "right"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("right");
                 } else {
@@ -1032,7 +1059,7 @@ int main(int argc, char** argv){
                 
             } 
 
-            if (match->getKaratekaA()->getXMovement() == "forward" && match->getKaratekaA()->getXMovement() != "backward"){
+            if (karateka1Action == "forward"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("forward");
                 } else {
@@ -1042,18 +1069,16 @@ int main(int argc, char** argv){
                 
 
                 
-            } else if (match->getKaratekaA()->getXMovement() == "backward" && match->getKaratekaA()->getXMovement() != "forward"){
+            } else if (karateka1Action == "backward"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("backward");
 
                 } else {
                     match->getKaratekaA()->updatePositionRecoil("backward");
                 }
-
-                
             } 
 
-            if (match->getKaratekaA()->getDecision() == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
+            if (karateka1Action == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
 
             string result = match->getKaratekaA()->punch("oi-zuki");           
 
@@ -1097,7 +1122,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaOiZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (match->getKaratekaA()->getDecision() == "mae-geri"){
+        } else if (karateka1Action == "mae-geri"){
 
             string result = match->getKaratekaA()->manualkick("mae-geri");
 
@@ -1135,7 +1160,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (match->getKaratekaA()->getDecision() == "block"){
+        } else if (karateka1Action == "block"){
 
             string result = match->getKaratekaA()->block();
 
@@ -1146,7 +1171,7 @@ int main(int argc, char** argv){
             SDL_RenderCopyEx(renderer, karatekaAgeUkeTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
 
             
-        } else if (match->getKaratekaA()->getDecision() == "yoko-geri"){
+        } else if (karateka1Action == "yoko-geri"){
 
             string result = match->getKaratekaA()->manualkick("yoko-geri");
 
@@ -1183,7 +1208,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (match->getKaratekaA()->getDecision() == "gyaku-zuki"){
+        } else if (karateka1Action == "gyaku-zuki"){
 
             string result = match->getKaratekaA()->punch("gyaku-zuki");
 
@@ -1258,12 +1283,14 @@ int main(int argc, char** argv){
 
         // KARATEKA 2 // Simulated
 
+        string karateka2Action = match->getKaratekaB()->getDecision(rngB(false));
+
         
         //cout<<"Movement Decision: "<<match->getKaratekaB()->getMovement()<<endl;
 
         if(!wait){
 
-        if (match->getKaratekaB()->getYMovement() == "left" && match->getKaratekaB()->getYMovement() != "right"){
+        if (karateka2Action == "left"){
 
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("left");
@@ -1271,7 +1298,7 @@ int main(int argc, char** argv){
                 match->getKaratekaB()->updatePositionRecoil("left");
             }
             
-        } else if (match->getKaratekaB()->getYMovement() == "right" && match->getKaratekaB()->getYMovement() != "left"){
+        } else if (karateka2Action == "right"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("right");
             } else {
@@ -1280,7 +1307,7 @@ int main(int argc, char** argv){
             
         } 
 
-        if (match->getKaratekaB()->getXMovement() == "forward" && match->getKaratekaB()->getXMovement() != "backward"){
+        if (karateka2Action == "forward"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("forward");
             } else {
@@ -1290,7 +1317,7 @@ int main(int argc, char** argv){
             
 
             
-        } else if (match->getKaratekaB()->getXMovement() == "backward" && match->getKaratekaB()->getXMovement() != "forward"){
+        } else if (karateka2Action == "backward"){
             if(!areKaratekasColliding){
                 match->getKaratekaB()->updatePosition("backward");
 
@@ -1306,7 +1333,7 @@ int main(int argc, char** argv){
         //B->updatePosition("forward");
         
         // if match->getKaratekaB()->getDecision() == "oi-zuki"
-        if (match->getKaratekaB()->getDecision() == "oi-zuki"){ //if(match->getKaratekaB()->getDecision() == "oi-zuki")
+        if (karateka2Action == "oi-zuki"){ //if(karateka2Action == "oi-zuki")
 
             string result = match->getKaratekaB()->punch("oi-zuki"); 
 
@@ -1339,7 +1366,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (match->getKaratekaB()->getDecision() == "gyaku-zuki"){ //(match->getKaratekaB()->punch("gyaku-zuki") == "gyaku-zuki"
+        } else if (karateka2Action == "gyaku-zuki"){ //(match->getKaratekaB()->punch("gyaku-zuki") == "gyaku-zuki"
 
             string result = match->getKaratekaB()->punch("gyaku-zuki"); 
 
@@ -1371,7 +1398,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (match->getKaratekaB()->getDecision() == "block"){ //match->getKaratekaB()->getDecision() == "block"
+        } else if (karateka2Action == "block"){ //karateka2Action == "block"
 
             string result = match->getKaratekaB()->block();
 
@@ -1381,7 +1408,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (match->getKaratekaB()->getDecision() == "yoko-geri"){ // YOKO GERI // (match->getKaratekaB()->kick("yoko-geri") == "yoko-geri"
+        } else if (karateka2Action == "yoko-geri"){ // YOKO GERI // (match->getKaratekaB()->kick("yoko-geri") == "yoko-geri"
 
             string result = match->getKaratekaB()->kick("yoko-geri");           
 
@@ -1418,7 +1445,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (match->getKaratekaB()->getDecision() == "mae-geri"){ // MAE GERI
+        } else if (karateka2Action == "mae-geri"){ // MAE GERI
 
             string result = match->getKaratekaB()->kick("mae-geri");
 

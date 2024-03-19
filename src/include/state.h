@@ -16,6 +16,7 @@ private:
     float distanceToOpponent;
     std::string karatekaLastAction;
     std::string opponentLastAction;
+    float rotationAngle;
 
 public:
     void printState() const {
@@ -30,6 +31,7 @@ public:
         std::cout << "Distance to Opponent: " << distanceToOpponent << std::endl;
         std::cout << "Karateka Last Action: " << karatekaLastAction << std::endl;
         std::cout << "Opponent Last Action: " << opponentLastAction << std::endl;
+        std::cout << "Karateka Rotation Angle: " << rotationAngle << std::endl;
     }
 
     float calculateDistanceToOpponent() const {
@@ -100,6 +102,18 @@ public:
 
     bool getIsColliding(){
         return this->isColliding;
+    }
+
+    string getOpponentLastAction(){
+        return this->opponentLastAction;
+    }
+
+    void setRotationAngle(float rotationAngle){
+        this->rotationAngle = rotationAngle;
+    }
+
+    float getRotationAngle(){
+        return this->rotationAngle;
     }
 
     
