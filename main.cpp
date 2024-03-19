@@ -90,7 +90,7 @@ int rngA(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 4444;
+    int seedValue = 7777;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
@@ -106,7 +106,7 @@ int rngB(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 1235;
+    int seedValue = 6666;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
@@ -1025,6 +1025,46 @@ int main(int argc, char** argv){
                 }
             } 
 
+            if(karateka1Action == "backward-left"){
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("backward");
+                match->getKaratekaA()->updatePosition("left");
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("backward");
+                match->getKaratekaA()->updatePositionRecoil("left");
+            } 
+            } else if (karateka1Action == "backward-right") {
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("backward");
+                match->getKaratekaA()->updatePosition("right");
+
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("backward");
+                match->getKaratekaA()->updatePositionRecoil("right");
+            }
+            }
+
+            if(karateka1Action == "forward-left"){
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("left");
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("left");
+            } 
+            } else if (karateka1Action == "forward-right") {
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("right");
+
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("right");
+            }
+            }
+
+
+
             if (karateka1Action == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
 
             string result = match->getKaratekaA()->punch("oi-zuki");           
@@ -1273,6 +1313,44 @@ int main(int argc, char** argv){
             
         } 
 
+        if(karateka2Action == "backward-left"){
+        if(!areKaratekasColliding){
+            match->getKaratekaA()->updatePosition("backward");
+            match->getKaratekaA()->updatePosition("left");
+        } else {
+            match->getKaratekaA()->updatePositionRecoil("backward");
+            match->getKaratekaA()->updatePositionRecoil("left");
+        } 
+        } else if (karateka2Action == "backward-right") {
+        if(!areKaratekasColliding){
+            match->getKaratekaA()->updatePosition("backward");
+            match->getKaratekaA()->updatePosition("right");
+
+        } else {
+            match->getKaratekaA()->updatePositionRecoil("backward");
+            match->getKaratekaA()->updatePositionRecoil("right");
+        }
+        }
+
+        if(karateka2Action == "forward-left"){
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("left");
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("left");
+            } 
+            } else if (karateka2Action == "forward-right") {
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("right");
+
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("right");
+            }
+            }
+
 
         //B->updatePosition("left");
         //B->updatePosition("forward");
@@ -1498,6 +1576,44 @@ int main(int argc, char** argv){
             
         } 
 
+        if(karateka2Action == "backward-left"){
+        if(!areKaratekasColliding){
+            match->getKaratekaA()->updatePosition("backward");
+            match->getKaratekaA()->updatePosition("left");
+        } else {
+            match->getKaratekaA()->updatePositionRecoil("backward");
+            match->getKaratekaA()->updatePositionRecoil("left");
+        } 
+        } else if (karateka2Action == "backward-right") {
+        if(!areKaratekasColliding){
+            match->getKaratekaA()->updatePosition("backward");
+            match->getKaratekaA()->updatePosition("right");
+
+        } else {
+            match->getKaratekaA()->updatePositionRecoil("backward");
+            match->getKaratekaA()->updatePositionRecoil("right");
+        }
+        }
+
+        if(karateka2Action == "forward-left"){
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("left");
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("left");
+            } 
+            } else if (karateka2Action == "forward-right") {
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("right");
+
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("right");
+            }
+            }
+
 
         //B->updatePosition("left");
         //B->updatePosition("forward");
@@ -1689,27 +1805,22 @@ int main(int argc, char** argv){
                     match->getKaratekaA()->updatePosition("left");
                 } else {
                     match->getKaratekaA()->updatePositionRecoil("left");
-                }
-                
+                }                
             } else if (karateka1Action == "right"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("right");
                 } else {
                     match->getKaratekaA()->updatePositionRecoil("right");
-                }
-                
+                }                
             } 
+
 
             if (karateka1Action == "forward"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("forward");
                 } else {
                     match->getKaratekaA()->updatePositionRecoil("forward");
-                }
-
-                
-
-                
+                }               
             } else if (karateka1Action == "backward"){
                 if(!areKaratekasColliding){
                     match->getKaratekaA()->updatePosition("backward");
@@ -1718,6 +1829,46 @@ int main(int argc, char** argv){
                     match->getKaratekaA()->updatePositionRecoil("backward");
                 }
             } 
+
+            if(karateka1Action == "backward-left"){
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("backward");
+                    match->getKaratekaA()->updatePosition("left");
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("forward");
+                    match->getKaratekaA()->updatePositionRecoil("left");
+                } 
+            } else if (karateka1Action == "backward-right") {
+                if(!areKaratekasColliding){
+                    match->getKaratekaA()->updatePosition("backward");
+                    match->getKaratekaA()->updatePosition("right");
+
+                } else {
+                    match->getKaratekaA()->updatePositionRecoil("backward");
+                    match->getKaratekaA()->updatePositionRecoil("right");
+                }
+            }
+
+            if(karateka1Action == "forward-left"){
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("left");
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("left");
+            } 
+            } else if (karateka1Action == "forward-right") {
+            if(!areKaratekasColliding){
+                match->getKaratekaA()->updatePosition("forward");
+                match->getKaratekaA()->updatePosition("right");
+
+            } else {
+                match->getKaratekaA()->updatePositionRecoil("forward");
+                match->getKaratekaA()->updatePositionRecoil("right");
+            }
+            }
+
+
 
             if (karateka1Action == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
 

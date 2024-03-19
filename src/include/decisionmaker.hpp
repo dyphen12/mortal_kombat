@@ -22,12 +22,25 @@ class DecisionMaker {
         int chanceToCollide = rn;
         int chanceToGoRight = rn;
         int chanceToGoLeft = rn;
+        int chanceToBlock = rn;
         //cout<<rn<<endl;
         //matchState->printState();
         //cout<<matchState->getRotationAngle()<<endl;
-        if (matchState->getIsColliding()) 
-        {
-            if (chanceToHit < 10){
+        cout<<"Rotation Angle = "<<matchState->getRotationAngle()<<" / Arena Side = "<<arenaSide<<endl;
+        if (matchState->getIsColliding()){
+
+            if(matchState->getOpponentPoints() > matchState->getKaratekaPoints() > 3){
+                if(chanceToHit < 60){
+                    return "yoko-geri";
+                } else if (chanceToHit < 80){
+                    return "mae-geri";
+                }
+            } else if(matchState->getKaratekaPoints() > matchState->getOpponentPoints()) {
+                if (chanceToBlock < 10){
+                    return "block";
+                }
+            } else {
+                if (chanceToHit < 10){
                 return "yoko-geri";
             } else if (chanceToHit < 20){
                 return "gyaku-zuki";
@@ -38,6 +51,9 @@ class DecisionMaker {
             } else {
                 return "block";
             }
+
+            }
+                
         
         } else if (chanceToCollide < 2) {
 
@@ -47,31 +63,41 @@ class DecisionMaker {
 
             if (matchState->calculateDistanceToOpponent() <= 80) {
 
-                if(matchState->getRotationAngle() >= 89 && matchState->getRotationAngle() <=91){
-
-                    if (chanceToGoLeft < 25){
-                        return "right";
-                    } else {
-                        if (arenaSide == "right"){
-                            return "backward";
-
-                        } else {
-                            return "forward";
-                        }
-                        
-                    }
-                }
 
                 return (chanceToMove % 2 == 0) ?  "left" : "right";
+
+                
 
             } else {
                 return goAfterOpponent(matchState, arenaSide);
             }
 
 
+        } else if(matchState->getRotationAngle() > 88 && matchState->getRotationAngle() <93){
+
+            if (arenaSide == "right"){
+                //return "forward-left";
+                return (chanceToMove % 2 == 0) ?  "forward-left" : "forward-right";
+            } else {
+                return (chanceToMove % 2 == 0) ?  "backward-left" : "backward-right";
+                //return "none";
+            }
+                    
+        } else if (matchState->calculateDistanceToOpponent() <= 65) {
+
+            if(chanceToBlock < 90){
+                return "block";
+            } else {
+                return "none";
+            }
+
+                
+
         } else {
             return "none";
         }
+
+        return "none";
     }
 
     string goAfterOpponent(State* matchState, string arenaSide){

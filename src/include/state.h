@@ -116,5 +116,13 @@ public:
         return this->rotationAngle;
     }
 
+    int getOpponentPoints(){
+        return this->opponentPoints;
+    }
+
+    int getKaratekaPoints(){
+        return this->karatekaPoints;
+    }
+
     
 };
