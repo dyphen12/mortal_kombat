@@ -90,7 +90,7 @@ int rngA(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 7777;
+    int seedValue = 2345;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
@@ -106,7 +106,7 @@ int rngB(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 6666;
+    int seedValue = 6789;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
