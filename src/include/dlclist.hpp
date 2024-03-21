@@ -59,7 +59,7 @@ public:
     T* pop2() {
         if (head == nullptr) {
             cout << "The list is empty!" << endl;
-            return nullptr; // Avoid unnecessary operations if empty
+            return NULL; // Avoid unnecessary operations if empty
         }
 
         Node<T>* current = head;

@@ -513,45 +513,31 @@ int main(int argc, char** argv){
 
     // Setting Karateka A
 
-    Shotokan* A = new Shotokan(3); // Create new karateka shotokan style
-
-    A->setName("Miho Miyahara"); // Set Karateka Name
-
     // Loading Starting Arena Position on the Karateka
     PositionVector* posvk1 = new PositionVector(); // Create new PositionVector;
     posvk1->loadPosition(karatekaCenterX-90, karatekaCenterY); //Load Karateka1 position in the arena into the PositionVector
-    A->setPosition(posvk1); // Set PositionVector into Karateka
-    PositionVector* postemp = A->getPositionVector(); // PositionVector Test
+    nextMatch->getKaratekaA()->setPosition(posvk1); // Set PositionVector into Karateka
+    PositionVector* postemp = nextMatch->getKaratekaA()->getPositionVector(); // PositionVector Test
     cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
-    int q = A->getPositionVector()->x;
+    int q = nextMatch->getKaratekaA()->getPositionVector()->x;
     posvk1->x = karatekaCenterX;
     posvk1->y = karatekaCenterY;
-    
-    
-
-    A->setArenaSide("left");
-    cout<<"Arena side = "<<A->getArenaSide()<<endl;
 
     // Setting Karateka B
 
-    Shotokan* B = new Shotokan(3); 
-
-    B->setName("Shara Hubrich"); 
-
     PositionVector* posvk2 = new PositionVector(); 
     posvk2->loadPosition(karateka2CenterX+95, karateka2CenterY); 
-    B->setPosition(posvk2); 
-    PositionVector* postempB = B->getPositionVector(); 
+    nextMatch->getKaratekaB()->setPosition(posvk2); 
+    PositionVector* postempB = nextMatch->getKaratekaB()->getPositionVector(); 
     cout<<"Position of Karateka B:  X="<<postempB->x<<" Y="<<postempB->y<<endl; 
     
-    B->setArenaSide("right");
-    cout<<"Arena side = "<<B->getArenaSide()<<endl;
+    nextMatch->getKaratekaB()->setArenaSide("right");
+    cout<<"Arena side = "<<nextMatch->getKaratekaB()->getArenaSide()<<endl;
     
-
 
     // Setting Match
 
-    Match* match = new Match(A,B);
+    Match* match = nextMatch;
     match->printMatchNames();
     match->simulateMatch();
     match->getKaratekaA()->getMatchState()->setKaratekaPositionVector(posvk1);
@@ -561,20 +547,7 @@ int main(int argc, char** argv){
 
     State* matchState = match->getKaratekaA()->getMatchState();
 
-    // cout<<"sadf: "<<match->getKaratekaA()->getMatchState()->getKaratekaLastAction()<<endl;
 
-    
-    
-
-    /*
-
-    if(match->getKaratekaA()->getMatchState()->getKaratekaPosition() == NULL){
-            cout << "Shit is NULL" << endl;
-        } else {
-            cout << "State Debug: " << match->getKaratekaA()->getMatchState()->getKaratekaPosition()->x << endl;
-        }
-    
-    */
     match->getKaratekaA()->getMatchState()->printState();
 
     
