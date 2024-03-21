@@ -5,6 +5,9 @@
 #include "championship.hpp"
 #include <random>
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 #define SCREEN_WIDTH 1280 
 #define SCREEN_HEIGHT 720 
@@ -463,6 +466,49 @@ int main(int argc, char** argv){
 
     int counter2CenterX = ((screenWidth - COUNTER_WIDTH) / 2)+200;
     int counter2CenterY = ((screenHeight - COUNTER_HEIGHT) / 2)-330;
+
+
+    // Championship Implementation
+
+    Championship* wkc_womens_kumite = new Championship();
+
+    string name;
+
+    // Open the file for reading
+    ifstream file("karatekanames.txt");
+
+    // Check if the file was opened successfully
+    if (file.is_open()) {
+        // Read each line from the file
+        while (std::getline(file, name)) {
+
+        // Add the name to the vector
+        //cout<<name<<endl;
+
+        Shotokan* newKarateka = new Shotokan(3); // Create new karateka shotokan style
+
+        newKarateka->setName(name); // Set Karateka Name
+
+        wkc_womens_kumite->signUpKarateka(newKarateka);
+
+        }
+
+        // Close the file
+        file.close();
+    } else {
+        cerr << "Error: Could not open file 'karatekanames.txt'." << std::endl;
+    }
+
+
+    //wkc_womens_kumite->printKaratekaList();
+    //cout<<wkc_womens_kumite->countKaratekas()<<endl;
+
+    wkc_womens_kumite->calculateMatches();
+
+    Match* nextMatch = wkc_womens_kumite->bottomHalfRun();
+    
+
+    // MATCH IMPLEMENTATION
     
 
     // Setting Karateka A
@@ -564,7 +610,6 @@ int main(int argc, char** argv){
 
     Referee* referee = new Referee(match);
 
-    
 
      // Main loop
     bool running = true;
@@ -1260,18 +1305,10 @@ int main(int argc, char** argv){
 
         }
 
-        
-
-        
-
-
-        
-        
+               
 
         // KARATEKA 2 // Simulated
 
-        
-        //cout<<"Movement Decision: "<<match->getKaratekaB()->getMovement()<<endl;
 
         if(!wait){
 
@@ -2066,10 +2103,6 @@ int main(int argc, char** argv){
         }
 
         }
-        
-
-        
-
         
 
         match->getKaratekaA()->updateMatchState();
