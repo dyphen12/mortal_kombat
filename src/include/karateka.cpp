@@ -296,7 +296,34 @@ string Shotokan::kick(string option) {
     }
 }
 
-string Shotokan::manualkick(string option) {
+string Shotokan::block() {
+    
+    this->setMatchStateMovement("block");
+    return "block";
+
+}
+
+GojuRyu::GojuRyu(int i) : Karateka(i) {
+    this->setStyle("goju-ryu");
+    this->decisionMaker = new DecisionMaker(this->getStyle());
+}
+
+string GojuRyu::punch(string option) {
+    
+
+    if (option == "oi-zuki") {
+        this->setMatchStateMovement("oi-zuki");
+        return "oi-zuki";
+    } else if (option == "gyaku-zuki") {
+        this->setMatchStateMovement("gyaku-zuki");
+        return "gyaku-zuki";
+    } else {
+        return "fail";
+    }
+}
+
+string GojuRyu::kick(string option) {
+    
 
     if (option == "mae-geri") {
         this->setMatchStateMovement("mae-geri");
@@ -305,11 +332,11 @@ string Shotokan::manualkick(string option) {
         this->setMatchStateMovement("yoko-geri");
         return "yoko-geri";
     } else {
-        return "fail";
+    return "fail";
     }
 }
 
-string Shotokan::block() {
+string GojuRyu::block() {
     
     this->setMatchStateMovement("block");
     return "block";

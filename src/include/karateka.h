@@ -97,7 +97,16 @@ public:
 
     string kick(string option);
 
-    string manualkick(string option);
+    string block();
+};
+
+class GojuRyu : public Karateka {
+public:
+    GojuRyu(int i);
+
+    string punch(string option);
+
+    string kick(string option);
 
     string block();
 };

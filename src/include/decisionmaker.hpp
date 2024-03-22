@@ -24,7 +24,9 @@ class DecisionMaker {
     int chanceToGoLeft = rn;
     int chanceToBlock = rn;
 
-    if (matchState->getIsColliding()) {
+    if(this->style == "Shotokan"){
+
+        if (matchState->getIsColliding()) {
         // Adjust decision probabilities based on opponent's points and match state
         if (matchState->getOpponentPoints() > matchState->getKaratekaPoints() + 3) {
             if (chanceToHit < 12) {
@@ -84,6 +86,73 @@ class DecisionMaker {
         return "none";
     }
     return "none";
+
+    } else {
+
+        if (matchState->getIsColliding()) {
+        // Adjust decision probabilities based on opponent's points and match state
+        if (matchState->getOpponentPoints() > matchState->getKaratekaPoints() + 3) {
+            if (chanceToHit < 12) {
+                return "yoko-geri";
+            } else if (chanceToHit < 16) {
+                return "mae-geri";
+            }
+        } else if (matchState->getKaratekaPoints() > matchState->getOpponentPoints()) {
+            if (chanceToBlock < 10) {
+                return "block";
+            }
+        } else {
+            // Adjust probabilities for different attacks or blocking
+            if (chanceToHit < 6) {
+                return "yoko-geri";
+            } else if (chanceToHit < 8) {
+                return "gyaku-zuki";
+            } else if (chanceToHit < 12) {
+                return "mae-geri";
+            } else if (chanceToHit < 20) {
+                return "oi-zuki";
+            } else {
+                return "block";
+            }
+        }
+    } else if (chanceToCollide < 2) {
+        return goAfterOpponent(matchState, arenaSide);
+    } else if (chanceToGoAfterOpponent < 20) {
+        // Adjust probabilities based on distance to opponent
+        if (matchState->calculateDistanceToOpponent() <= 90) {
+            return (chanceToMove % 2 == 0) ?  "left" : "right";
+        } else {
+            return goAfterOpponent(matchState, arenaSide);
+        }
+    } else if (matchState->getRotationAngle() > 88 && matchState->getRotationAngle() < 93) {
+        // Adjust probabilities based on rotation angle and arena side
+        if (chanceToGoAfterOpponent < 40){
+                return goAfterOpponent(matchState, arenaSide);
+            } else {
+                if (arenaSide == "right") {
+            
+                    return (chanceToMove % 2 == 0) ?  "backward-left" : "backward-right";
+                } else {
+                    return (chanceToMove % 2 == 0) ?  "backward-left" : "backward-right";
+                }
+                
+            }
+        
+    } else if (matchState->calculateDistanceToOpponent() <= 48) {
+        // Adjust probabilities for blocking based on distance to opponent
+        if (chanceToBlock < 90) {
+            return "block";
+        } else {
+            return "none";
+        }
+    } else {
+        return "none";
+    }
+    return "none";
+
+    }
+
+    
 }
 
     string goAfterOpponent(State* matchState, string arenaSide){

@@ -41,8 +41,6 @@ class Championship{
     bool finals = false;
 
 
-    
-
     int contestants;
     int weight;
 

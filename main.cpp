@@ -93,7 +93,7 @@ int rngA(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 2345;
+    int seedValue = 3456;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
@@ -109,7 +109,7 @@ int rngB(bool useSpecificSeed) {
     static random_device rd; // Static to ensure initialization happens only once
     static mt19937 generator(rd()); // Static to maintain generator state
 
-    int seedValue = 6789;
+    int seedValue = 6543;
 
     if (useSpecificSeed) {
         generator.seed(seedValue);
@@ -485,11 +485,32 @@ int main(int argc, char** argv){
         // Add the name to the vector
         //cout<<name<<endl;
 
-        Shotokan* newKarateka = new Shotokan(3); // Create new karateka shotokan style
+        bool shotokanOrGoju = (rngA(false) <= 50);
 
-        newKarateka->setName(name); // Set Karateka Name
+        if(shotokanOrGoju){
 
-        wkc_womens_kumite->signUpKarateka(newKarateka);
+            Shotokan* newKarateka = new Shotokan(3); // Create new karateka shotokan style
+
+            newKarateka->setName(name); // Set Karateka Name
+
+            wkc_womens_kumite->signUpKarateka(newKarateka);
+
+            //cout<<"New Shotokan signed up!"<<endl;
+
+        } else {
+
+            GojuRyu* newKarateka = new GojuRyu(3); // Create new karateka shotokan style
+
+            newKarateka->setName(name); // Set Karateka Name
+
+            wkc_womens_kumite->signUpKarateka(newKarateka);
+
+            //cout<<"New GojuRyu signed up!"<<endl;
+        }
+
+        //Shotokan* newKarateka = new Shotokan(3); // Create new karateka shotokan style
+
+        
 
         }
 
@@ -625,26 +646,20 @@ int main(int argc, char** argv){
         int minutes = (int)floor(remainingTime / 60);
         int seconds = (int)fmod(remainingTime, 60);
 
-        // Display remaining time (e.g., using text rendering functions)
-        //cout << "Time Remaining: " << minutes << ":" << seconds << endl;
-
-        // Clear screen (adjust color if needed)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // GAME LOGIC
+        // SIM LOGIC
         
         // RENDERING TASKS
         // ARENA RENDERING
 
         // GRASS
-        // Define a rectangle to represent the position and size of the grass on the screen
-        SDL_Rect grassRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}; // Adjust values as needed
 
-        // Render the texture to the screen
+        SDL_Rect grassRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}; 
+
         SDL_RenderCopy(renderer, grassTexture, NULL, &grassRect);
 
-        // Render image (adjust position and size as needed)
         SDL_Rect dstRect = {centerX, centerY, FLOOR_WIDTH, FLOOR_HEIGHT};
         SDL_RenderCopy(renderer, texture, NULL, &dstRect);
        
@@ -661,7 +676,6 @@ int main(int argc, char** argv){
 
         // First digit
         SDL_Rect counterdigit1Rect = {numberCenterX-214, numberCenterY, NUMBER_WIDTH, NUMBER_HEIGHT};
-        //SDL_RenderCopy(renderer, zeroTexture, NULL, &counterdigit1Rect);
 
 
         if (match->getKaratekaA()->getPoints() >= 90 && match->getKaratekaA()->getPoints() <= 99){
@@ -777,8 +791,6 @@ int main(int argc, char** argv){
 
         SDL_Rect clockRect = {clockCenterX, clockCenterY, CLOCK_WIDTH, CLOCK_HEIGHT}; 
         SDL_RenderCopy(renderer, clockTexture, NULL, &clockRect);
-
-        //cout << "Time Remaining: " << minutes << ":" << seconds << endl;
 
 
         // First digit
@@ -1008,10 +1020,8 @@ int main(int argc, char** argv){
 
 
         if (evaluateKaratekaAFirst) {
+
         // KARATEKA A // Simulated
-
-        
-
 
         if(!wait){
 
@@ -1137,7 +1147,7 @@ int main(int argc, char** argv){
             
         } else if (karateka1Action == "mae-geri"){
 
-            string result = match->getKaratekaA()->manualkick("mae-geri");
+            string result = match->getKaratekaA()->kick("mae-geri");
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; 
 
@@ -1186,7 +1196,7 @@ int main(int argc, char** argv){
             
         } else if (karateka1Action == "yoko-geri"){
 
-            string result = match->getKaratekaA()->manualkick("yoko-geri");
+            string result = match->getKaratekaA()->kick("yoko-geri");
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT}; 
 
@@ -1370,10 +1380,6 @@ int main(int argc, char** argv){
             }
 
 
-        //B->updatePosition("left");
-        //B->updatePosition("forward");
-        
-        // if match->getKaratekaB()->getDecision() == "oi-zuki"
         if (karateka2Action == "oi-zuki"){ //if(karateka2Action == "oi-zuki")
 
             string result = match->getKaratekaB()->punch("oi-zuki"); 
@@ -1546,13 +1552,9 @@ int main(int argc, char** argv){
 
         }
         } else {
-            // Evaluate karateka B first
-            // Your existing code for karateka B goes here
+
 
             // KARATEKA 2 // Simulated
-
-        
-        //cout<<"Movement Decision: "<<match->getKaratekaB()->getMovement()<<endl;
 
         if(!wait){
 
@@ -1633,10 +1635,6 @@ int main(int argc, char** argv){
             }
 
 
-        //B->updatePosition("left");
-        //B->updatePosition("forward");
-        
-        // if match->getKaratekaB()->getDecision() == "oi-zuki"
         if (karateka2Action == "oi-zuki"){ //if(karateka2Action == "oi-zuki")
 
             string result = match->getKaratekaB()->punch("oi-zuki"); 
@@ -1808,10 +1806,6 @@ int main(int argc, char** argv){
             SDL_RenderCopyEx(renderer, karateka2BasicStanceTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
 
         }
-            // Then evaluate karateka A
-            // Your existing code for karateka A goes here
-            // KARATEKA A // Simulated
-
         
 
 
@@ -1934,7 +1928,7 @@ int main(int argc, char** argv){
             
         } else if (karateka1Action == "mae-geri"){
 
-            string result = match->getKaratekaA()->manualkick("mae-geri");
+            string result = match->getKaratekaA()->kick("mae-geri");
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT}; 
 
@@ -1946,7 +1940,6 @@ int main(int argc, char** argv){
                 // Wazari Call
                 cout<<"Wazari!"<<endl;
 
-                
                 // Referee Call
                     
                 // Start animation
@@ -1954,8 +1947,6 @@ int main(int argc, char** argv){
                 wait = true;
                 animationStartTime = SDL_GetPerformanceCounter();
                 // End Animation
-
-
                 match->getKaratekaA()->setPoints("wazari");
 
                 match = setKaratekasStartPosition(match, KARATEKA_MAEGERI_WIDTH, KARATEKA_MAEGERI_HEIGHT);
@@ -1983,7 +1974,7 @@ int main(int argc, char** argv){
             
         } else if (karateka1Action == "yoko-geri"){
 
-            string result = match->getKaratekaA()->manualkick("yoko-geri");
+            string result = match->getKaratekaA()->kick("yoko-geri");
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_YOKOGERI_WIDTH, KARATEKA_YOKOGERI_HEIGHT}; 
 
@@ -2002,7 +1993,6 @@ int main(int argc, char** argv){
                 wait = true;
                 animationStartTime = SDL_GetPerformanceCounter();
                 // End Animation
-
 
                 match->getKaratekaA()->setPoints("ippon");
 
@@ -2089,19 +2079,6 @@ int main(int argc, char** argv){
         match->getKaratekaA()->updateMatchState();
         match->getKaratekaB()->updateMatchState();
 
-        /*
-        if(match->getKaratekaA()->getPositionVector() == NULL){
-            cout << "Shit is NULL" << endl;
-        } else {
-            cout << "State Debug: " << match->getKaratekaA()->getMatchState()->karatekaPos->x << endl;
-            cout << "State Debug: " << match->getKaratekaA()->getPositionVector()->x << endl;
-        }
-        
-        */
-
-        //cout << "State Debug: " << match->getKaratekaA()->getPositionVector()->x << endl;
-        //cout << "State Debug: " << match->getKaratekaA()->getMatchState()->karatekaPos->x << endl;
-
         match->setTimeLeft(remainingTime);
 
         Karateka* winner = referee->declareWinner();
@@ -2125,9 +2102,6 @@ int main(int argc, char** argv){
 
     }
 
-
-    
-    
 
     
     // Clean up
@@ -2156,7 +2130,7 @@ int main(int argc, char** argv){
     SDL_DestroyTexture(zeroTexture);
     SDL_DestroyTexture(oneTexture);
     SDL_DestroyTexture(twoTexture);
-    IMG_Quit(); // Important to deinitialize SDL_image
+    IMG_Quit(); 
     SDL_DestroyTexture(texture);
     IMG_Quit();
     SDL_DestroyRenderer(renderer);
