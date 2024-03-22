@@ -505,10 +505,18 @@ int main(int argc, char** argv){
 
     wkc_womens_kumite->calculateMatches();
 
-    Match* nextMatch = wkc_womens_kumite->bottomHalfRun();
-    
+    int matchesLeft = wkc_womens_kumite->getMatchesLeft();
 
-    // MATCH IMPLEMENTATION
+    cout<<"Matches Left: "<<matchesLeft<<endl;
+
+    while (wkc_womens_kumite->simulateChampionship() != NULL){
+        //cout<<"Running Bottom Half First Round!";
+
+        //Match* nextMatch = wkc_womens_kumite->bottomHalfRun();
+
+        Match* nextMatch = wkc_womens_kumite->simulateChampionship();
+
+        // MATCH IMPLEMENTATION
     
 
     // Setting Karateka A
@@ -548,7 +556,7 @@ int main(int argc, char** argv){
     State* matchState = match->getKaratekaA()->getMatchState();
 
 
-    match->getKaratekaA()->getMatchState()->printState();
+    //match->getKaratekaA()->getMatchState()->printState();
 
     
     
@@ -576,7 +584,7 @@ int main(int argc, char** argv){
 
 
     uint64_t matchStartTime;  // Time when the match starts
-    const double matchDuration = 3.0 * 60.0;  // Match duration in seconds (3 minutes)
+    const double matchDuration = 1.0 * 60.0;  // Match duration in seconds (3 minutes)
     bool matchOngoing = true;  // Flag to track match state
 
     matchStartTime = SDL_GetPerformanceCounter();
@@ -1117,7 +1125,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    matchState->printState();
+                    //matchState->printState();
 
                 }
 
@@ -1159,7 +1167,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1207,7 +1215,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1243,7 +1251,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
                 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1389,7 +1397,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1425,7 +1433,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1472,7 +1480,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1509,7 +1517,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1652,7 +1660,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1688,7 +1696,7 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1735,7 +1743,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1772,7 +1780,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -1914,7 +1922,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    matchState->printState();
+                    //matchState->printState();
 
                 }
 
@@ -1956,7 +1964,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -2004,7 +2012,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -2040,7 +2048,7 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                matchState->printState();
+                //matchState->printState();
                 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
                 //cout<<"Attack Blocked!"<<endl;
@@ -2100,6 +2108,7 @@ int main(int argc, char** argv){
 
         if (winner != NULL){
             match->setWinner(winner);
+            wkc_womens_kumite->retrieveMatches(match);
             cout<<"The Winner is "<<match->getWinner()->getName()<<endl;
             running = false;
         }
@@ -2113,8 +2122,40 @@ int main(int argc, char** argv){
         
     }
 
+
+    }
+
+
+    
+    
+
+    
     // Clean up
     SDL_DestroyTexture(arenaTexture);
+    SDL_DestroyTexture(karatekaTexture);
+    SDL_DestroyTexture(karateka2Texture);
+    SDL_DestroyTexture(grassTexture);
+    SDL_DestroyTexture(karatekaBasicStanceTexture);
+    SDL_DestroyTexture(karatekaOiZukiTexture);
+    SDL_DestroyTexture(karatekaAgeUkeTexture);
+    SDL_DestroyTexture(karatekaYokoGeriTexture);
+    SDL_DestroyTexture(karatekaMaeGeriTexture);
+    SDL_DestroyTexture(karateka2BasicStanceTexture);
+    SDL_DestroyTexture(karateka2OiZukiTexture);
+    SDL_DestroyTexture(karateka2GyakuZukiTexture);
+    SDL_DestroyTexture(karateka2AgeUkeTexture);
+    SDL_DestroyTexture(karateka2MaeGeriTexture);
+    SDL_DestroyTexture(refereeStandUpTexture);
+    SDL_DestroyTexture(refereeLeftPointTexture);
+    SDL_DestroyTexture(refereeRightPointTexture);
+    SDL_DestroyTexture(refereeStartMatchTexture);
+    SDL_DestroyTexture(yukoTextBoxTexture);
+    SDL_DestroyTexture(wazariTextBoxTexture);
+    SDL_DestroyTexture(ipponTextBoxTexture);
+    SDL_DestroyTexture(clockTexture);
+    SDL_DestroyTexture(zeroTexture);
+    SDL_DestroyTexture(oneTexture);
+    SDL_DestroyTexture(twoTexture);
     IMG_Quit(); // Important to deinitialize SDL_image
     SDL_DestroyTexture(texture);
     IMG_Quit();

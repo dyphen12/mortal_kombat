@@ -99,6 +99,28 @@ public:
         }
     }
 
+    T* getMatchWithNoWinner() {
+    if (head == nullptr) {
+        //cout << "The list is empty!" << endl;
+        return nullptr; // Return nullptr if the list is empty
+    }
+
+    Node<T>* current = head;
+
+    // Traverse the list until a match with no winner is found
+    do {
+        if (current->data->getWinner() == nullptr) {
+            // If the winner is NULL, return the match
+            return current->data;
+        }
+        current = current->next;
+    } while (current != head);
+
+    // If no match with no winner was found, return nullptr
+    //cout << "No match with no winner found!" << endl;
+    return nullptr;
+    }
+
     int getLength(){
         Node<T>* current = head;
         if (current == nullptr) {            

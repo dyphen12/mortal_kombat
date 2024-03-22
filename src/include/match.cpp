@@ -6,6 +6,7 @@ Match::Match(Karateka *k1, Karateka *k2) {
   this->k2 = k2;
   this->k1->initialize(k2);
   this->k2->initialize(k1);
+  this->winner = NULL;
 }
 
 Match::~Match() {
