@@ -40,14 +40,14 @@ class DecisionMaker {
             }
         } else {
             // Adjust probabilities for different attacks or blocking
-            if (chanceToHit < 6) {
+            if (chanceToHit < 10) {
                 return "yoko-geri";
-            } else if (chanceToHit < 8) {
-                return "gyaku-zuki";
-            } else if (chanceToHit < 12) {
-                return "mae-geri";
+            } else if (chanceToHit < 15) {
+                return "heiko-zuki";
             } else if (chanceToHit < 20) {
-                return "oi-zuki";
+                return "mae-geri";
+            } else if (chanceToHit < 25) {
+                return "ura-zuki";
             } else {
                 return "block";
             }
@@ -77,7 +77,7 @@ class DecisionMaker {
         
     } else if (matchState->calculateDistanceToOpponent() <= 48) {
         // Adjust probabilities for blocking based on distance to opponent
-        if (chanceToBlock < 90) {
+        if (chanceToBlock < 60) {
             return "block";
         } else {
             return "none";
@@ -103,8 +103,10 @@ class DecisionMaker {
             }
         } else {
             // Adjust probabilities for different attacks or blocking
-            if (chanceToHit < 6) {
+            if (chanceToHit < 4) {
                 return "yoko-geri";
+            } else if (chanceToHit < 6) {
+                return "mawashi-zuki";
             } else if (chanceToHit < 8) {
                 return "gyaku-zuki";
             } else if (chanceToHit < 12) {

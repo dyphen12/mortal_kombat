@@ -277,6 +277,15 @@ string Shotokan::punch(string option) {
     } else if (option == "gyaku-zuki") {
         this->setMatchStateMovement("gyaku-zuki");
         return "gyaku-zuki";
+    } else if (option == "mawashi-zuki") {
+        this->setMatchStateMovement("mawashi-zuki");
+        return "mawashi-zuki";
+    } else if (option == "ura-zuki") {
+        this->setMatchStateMovement("ura-zuki");
+        return "ura-zuki";
+    } else if (option == "heiko-zuki") {
+        this->setMatchStateMovement("heiko-zuki");
+        return "heiko-zuki";
     } else {
         return "fail";
     }
@@ -291,6 +300,12 @@ string Shotokan::kick(string option) {
     } else if (option == "yoko-geri") {
         this->setMatchStateMovement("yoko-geri");
         return "yoko-geri";
+    } else if (option == "ushiro-geri") {
+        this->setMatchStateMovement("ushiro-geri");
+        return "ushiro-geri";
+    } else if (option == "kin-geri") {
+        this->setMatchStateMovement("kin-geri");
+        return "kin-geri";
     } else {
     return "fail";
     }
@@ -317,6 +332,15 @@ string GojuRyu::punch(string option) {
     } else if (option == "gyaku-zuki") {
         this->setMatchStateMovement("gyaku-zuki");
         return "gyaku-zuki";
+    } else if (option == "mawashi-zuki") {
+        this->setMatchStateMovement("mawashi-zuki");
+        return "mawashi-zuki";
+    } else if (option == "ura-zuki") {
+        this->setMatchStateMovement("ura-zuki");
+        return "ura-zuki";
+    } else if (option == "heiko-zuki") {
+        this->setMatchStateMovement("heiko-zuki");
+        return "heiko-zuki";
     } else {
         return "fail";
     }
@@ -331,6 +355,12 @@ string GojuRyu::kick(string option) {
     } else if (option == "yoko-geri") {
         this->setMatchStateMovement("yoko-geri");
         return "yoko-geri";
+    } else if (option == "ushiro-geri") {
+        this->setMatchStateMovement("ushiro-geri");
+        return "ushiro-geri";
+    } else if (option == "kin-geri") {
+        this->setMatchStateMovement("kin-geri");
+        return "kin-geri";
     } else {
     return "fail";
     }
