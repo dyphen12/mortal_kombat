@@ -66,6 +66,12 @@
 #define REFEREE_STARTMATCH_WIDTH 35
 #define REFEREE_STARTMATCH_HEIGHT 42
 
+#define REFEREE_PENALTYLEFT_WIDTH 35
+#define REFEREE_PENALTYLEFT_HEIGHT 42
+
+#define REFEREE_PENALTYRIGHT_WIDTH 35
+#define REFEREE_PENALTYRIGHT_HEIGHT 42
+
 #define YUKO_TEXTBOX_WIDTH 92
 #define YUKO_TEXTBOX_HEIGHT 44
 
@@ -391,6 +397,18 @@ int main(int argc, char** argv){
         return 1; 
     }
 
+    SDL_Texture* refereePenaltyLeftTexture = IMG_LoadTexture(renderer, "assets/referee_sprites/Referee_penalty_left.png");
+    if (!refereePenaltyLeftTexture) {
+        printf("Failed to load referee penalty left sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
+    SDL_Texture* refereePenaltyRightTexture = IMG_LoadTexture(renderer, "assets/referee_sprites/Referee_penalty_right.png");
+    if (!refereePenaltyRightTexture) {
+        printf("Failed to load referee penalty right sprite! SDL_image Error: %s\n", IMG_GetError());
+        return 1; 
+    }
+
     // Text Box Textures
 
     SDL_Texture* yukoTextBoxTexture = IMG_LoadTexture(renderer, "assets/referee_sprites/yuko_text_box.png");
@@ -568,6 +586,12 @@ int main(int argc, char** argv){
 
             newKarateka->setName(name); // Set Karateka Name
 
+            int randomNum = rngA(false);
+
+            int randomSpeed = randomNum % 3 + 1; // Ensures a result between 1 and 3
+
+            newKarateka->setSpeed(randomSpeed);
+
             wkc_womens_kumite->signUpKarateka(newKarateka);
 
             //cout<<"New Shotokan signed up!"<<endl;
@@ -577,6 +601,12 @@ int main(int argc, char** argv){
             GojuRyu* newKarateka = new GojuRyu(3); // Create new karateka shotokan style
 
             newKarateka->setName(name); // Set Karateka Name
+
+            int randomNum = rngA(false);
+
+            int randomSpeed = randomNum % 3 + 1; // Ensures a result between 1 and 3
+
+            newKarateka->setSpeed(randomSpeed);
 
             wkc_womens_kumite->signUpKarateka(newKarateka);
 
@@ -675,6 +705,10 @@ int main(int argc, char** argv){
     bool isStartMatchAnimationPlaying = false; // Flag to track animation state
 
     bool isOiZukiAnimationPlaying = false; // Flag to track animation state
+
+    bool isPenaltyLeftAnimationPlaying = false;
+
+    bool isPenaltyRightAnimationPlaying = false;
 
     bool wait = false;
 
@@ -1061,6 +1095,28 @@ int main(int argc, char** argv){
                 refereeRect = {refereeCenterX, refereeCenterY, REFEREE_STARTMATCH_WIDTH, REFEREE_STARTMATCH_HEIGHT};
                 SDL_RenderCopyEx(renderer, refereeStartMatchTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
             }
+        } else if (isPenaltyLeftAnimationPlaying) {
+            if (deltaTime >= 3.0) {  // Animation duration is 5 seconds
+            isPenaltyLeftAnimationPlaying = false;
+            wait = false;
+            } else {
+
+                // Render referee with Right point sprite
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_PENALTYLEFT_WIDTH, REFEREE_PENALTYLEFT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereePenaltyLeftTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
+        } else if (isPenaltyRightAnimationPlaying) {
+            if (deltaTime >= 3.0) {  // Animation duration is 5 seconds
+            isPenaltyRightAnimationPlaying = false;
+            wait = false;
+            } else {
+
+                // Render referee with Right point sprite
+
+                refereeRect = {refereeCenterX, refereeCenterY, REFEREE_PENALTYRIGHT_WIDTH, REFEREE_PENALTYRIGHT_HEIGHT};
+                SDL_RenderCopyEx(renderer, refereePenaltyRightTexture, NULL, &refereeRect, 0, NULL, SDL_FLIP_NONE);
+            }
         } else {
 
 
@@ -1085,13 +1141,47 @@ int main(int argc, char** argv){
         SDL_Rect karatekaRect;
         SDL_Rect karateka2Rect;
 
-
-        const Uint8* state = SDL_GetKeyboardState(NULL); // Get keyboard state
  
         bool areKaratekasColliding = match->getKaratekaA()->checkCollision(karatekaRect, karateka2Rect);
 
         string karateka1Action = match->getKaratekaA()->getDecision(rngA(false));
         string karateka2Action = match->getKaratekaB()->getDecision(rngB(false));
+
+        //cout<<"Karateka 1 Decision: "<<karateka1Action<<endl;
+        //cout<<"Karateka 2 Decision: "<<karateka2Action<<endl;
+
+        /*
+
+        // MANUAL CONTROLLERS
+        // Handle player input
+        const Uint8* state = SDL_GetKeyboardState(NULL); // Get keyboard state
+        isMovingRight = state[SDL_SCANCODE_RIGHT];
+        isMovingLeft = state[SDL_SCANCODE_LEFT];
+        isMovingUp = state[SDL_SCANCODE_UP];
+        isMovingDown = state[SDL_SCANCODE_DOWN];
+        
+        // Update karateka position based on movement flags
+        if (isMovingRight && !isMovingLeft) {
+            karatekaCenterX += 2;
+        } else if (isMovingLeft && !isMovingRight) {
+            karatekaCenterX -= 2;
+        }
+        if (isMovingUp && !isMovingDown) {
+            karatekaCenterY -= 2;
+        } else if (isMovingDown && !isMovingUp) {
+            karatekaCenterY += 2;
+        }
+
+        posvk1->x = karatekaCenterX-90;
+        posvk1->x = karatekaCenterX;
+        posvk1->y = karatekaCenterY;
+
+        match->getKaratekaA()->setPosition(posvk1);
+        
+        */
+
+        
+
 
 
         if (evaluateKaratekaAFirst) {
@@ -2953,6 +3043,32 @@ int main(int argc, char** argv){
         match->setTimeLeft(remainingTime);
 
         Karateka* winner = referee->declareWinner();
+        
+        Karateka* penalty = referee->callPenalty();
+
+        if (penalty != NULL){
+            match = setKaratekasStartPosition(match, KARATEKA_GYAKUZUKI_WIDTH, KARATEKA_GYAKUZUKI_HEIGHT);
+            karatekaCenterX = match->getKaratekaA()->getPositionVector()->x;
+            karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
+
+            match->getKaratekaA()->updateMatchState();
+            match->getKaratekaB()->updateMatchState();
+
+            if(penalty == match->getKaratekaA()){
+                cout<<"Penalty Commited by Karateka A!"<<endl;
+                isPenaltyLeftAnimationPlaying = true;
+                wait = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+            } else if (penalty == match->getKaratekaB()){
+                cout<<"Penalty Commited by Karateka B!"<<endl;
+                isPenaltyRightAnimationPlaying = true;
+                wait = true;
+                animationStartTime = SDL_GetPerformanceCounter();
+
+            }
+
+        }
+        
 
         if (winner != NULL){
             match->setWinner(winner);
@@ -2972,6 +3088,10 @@ int main(int argc, char** argv){
 
 
     }
+
+    
+
+
 
 
     

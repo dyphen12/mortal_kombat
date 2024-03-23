@@ -4,7 +4,7 @@ Karateka::Karateka(int i) {
     this->id = i;
     this->points = 0;
     this->opponent = NULL;
-    this->speed = 1;
+    this->speed = 3;
     this->MatchState = new State(); // Initialize MatchState
     this->MatchState->setKaratekaMovement("stand-up");
     this->arenaSide = "Null";
@@ -139,8 +139,8 @@ void Karateka::updatePositionRecoil(string movement) {
     
 }
 
-void Karateka::receiveAttack() {
-    // Handle receiving an attack
+void Karateka::setSpeed(int speed) {
+    this->speed = speed;
 }
 
 void Karateka::setPosition(PositionVector *posvec) {
@@ -261,6 +261,14 @@ DecisionMaker* Karateka::getDecisionMaker(){
 string Karateka::getDecision(int rn){
     string decision = this->decisionMaker->getDecision(this->getMatchState(), this->arenaSide, rn);
     return decision;
+}
+
+int Karateka::getFouls(){
+    return this->fouls;
+}
+
+void Karateka::setFoul(){
+    this->fouls = fouls+=1;
 }
 
 Shotokan::Shotokan(int i) : Karateka(i) {

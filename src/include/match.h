@@ -68,7 +68,14 @@ public:
         }
       } else if(this->match->getKaratekaB()->getPoints() - this->match->getKaratekaA()->getPoints() >= 8){
 
-        //cout<<"The Winner is "<<match->getKaratekaA()->getName()<<endl;
+        return match->getKaratekaB();
+      } else if(this->match->getKaratekaB()->getFouls() >= 3){
+
+
+        return match->getKaratekaA();
+      } else if(this->match->getKaratekaA()->getFouls() >= 3){
+
+
         return match->getKaratekaB();
       } else {
         return NULL;
@@ -76,9 +83,28 @@ public:
    
     }
 
-    string callPenalty(){
-      return "Penalty";
+    Karateka* callPenalty(){
+      //cout<<"Position of Karateka on X: "<<this->match->getKaratekaA()->getPositionVector()->x<<endl;
+      //cout<<"Position of Karateka on Y: "<<this->match->getKaratekaA()->getPositionVector()->y<<endl;
+
+      if(match->getKaratekaA()->getPositionVector()->x >= 870 || match->getKaratekaA()->getPositionVector()->x <= 399 || match->getKaratekaA()->getPositionVector()->y <= 120 || match->getKaratekaA()->getPositionVector()->y >= 575){
+        cout<<"Step out of Tatami! Penalty for "<<match->getKaratekaA()->getName()<<endl;
+        match->getKaratekaA()->setFoul();
+        return match->getKaratekaA();
+      } else if(match->getKaratekaB()->getPositionVector()->x >= 870 || match->getKaratekaB()->getPositionVector()->x <= 399 || match->getKaratekaB()->getPositionVector()->y <= 120 || match->getKaratekaB()->getPositionVector()->y >= 575){
+        cout<<"Step out of Tatami! Penalty for "<<match->getKaratekaB()->getName()<<endl;
+        match->getKaratekaB()->setFoul();
+        return match->getKaratekaB();
+      } else {
+        return NULL;
+      }
+
+      
+
+
     }
+
+    
 
     
 };

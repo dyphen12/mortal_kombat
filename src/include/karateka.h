@@ -25,6 +25,7 @@ protected:
     string arenaSide;
     SDL_Rect *karatekaRect;
     DecisionMaker *decisionMaker;
+    int fouls;
 
 public:
     Karateka(int i);
@@ -51,7 +52,7 @@ public:
 
     void updatePositionRecoil(string movement);
 
-    void receiveAttack();
+    void setSpeed(int speed);
 
     void setPosition(PositionVector *posvec);
 
@@ -86,6 +87,10 @@ public:
     DecisionMaker* getDecisionMaker();
 
     virtual string getDecision(int rn);
+
+    int getFouls();
+
+    void setFoul();
     
 };
 
