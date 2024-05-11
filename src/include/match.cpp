@@ -21,7 +21,7 @@ void Match::printMatchNames() {
 void Match::simulateMatch() {
   // Implement the logic to simulate the fight here
   // This currently only prints basic information
-  std::cout << "Simulating Match" << std::endl;
+  std::cout << "-------- Simulating Match --------" << std::endl;
   std::cout << k1->getName() << " VS " << k2->getName() << std::endl;
 }
 

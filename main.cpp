@@ -197,14 +197,12 @@ int main(int argc, char** argv){
         return 1;
     }
 
-    // Load image (replace with your image path)
     SDL_Texture* texture = IMG_LoadTexture(renderer, "assets/Floor.png");
     if (!texture) {
         printf("Failed to load texture! SDL_image Error: %s\n", IMG_GetError());
         return 1;
     }
 
-    // Assuming "Arena.png" is in the same directory as your code
     SDL_Texture* arenaTexture = IMG_LoadTexture(renderer, "assets/Arena.png");
     if (!arenaTexture) {
         printf("Failed to load arena texture! SDL_image Error: %s\n", IMG_GetError());
@@ -512,8 +510,6 @@ int main(int argc, char** argv){
     }
 
     
-
-
     // Get screen dimensions
     int screenWidth = SCREEN_WIDTH;
     int screenHeight = SCREEN_HEIGHT;
@@ -567,7 +563,6 @@ int main(int argc, char** argv){
 
     string name;
 
-    // Open the file for reading
     ifstream file("karatekanames.txt");
 
     // Check if the file was opened successfully
@@ -576,7 +571,6 @@ int main(int argc, char** argv){
         while (std::getline(file, name)) {
 
         // Add the name to the vector
-        //cout<<name<<endl;
 
         bool shotokanOrGoju = (rngA(false) <= 50);
 
@@ -594,11 +588,9 @@ int main(int argc, char** argv){
 
             wkc_womens_kumite->signUpKarateka(newKarateka);
 
-            //cout<<"New Shotokan signed up!"<<endl;
-
         } else {
 
-            GojuRyu* newKarateka = new GojuRyu(3); // Create new karateka shotokan style
+            GojuRyu* newKarateka = new GojuRyu(3); // Create new karateka Goju-Ryu style
 
             newKarateka->setName(name); // Set Karateka Name
 
@@ -610,24 +602,14 @@ int main(int argc, char** argv){
 
             wkc_womens_kumite->signUpKarateka(newKarateka);
 
-            //cout<<"New GojuRyu signed up!"<<endl;
         }
-
-        //Shotokan* newKarateka = new Shotokan(3); // Create new karateka shotokan style
-
-        
 
         }
 
-        // Close the file
         file.close();
     } else {
         cerr << "Error: Could not open file 'karatekanames.txt'." << std::endl;
     }
-
-
-    //wkc_womens_kumite->printKaratekaList();
-    //cout<<wkc_womens_kumite->countKaratekas()<<endl;
 
     wkc_womens_kumite->calculateMatches();
 
@@ -636,9 +618,7 @@ int main(int argc, char** argv){
     cout<<"Matches Left: "<<matchesLeft<<endl;
 
     while (wkc_womens_kumite->simulateChampionship() != NULL){
-        //cout<<"Running Bottom Half First Round!";
 
-        //Match* nextMatch = wkc_womens_kumite->bottomHalfRun();
 
         Match* nextMatch = wkc_womens_kumite->simulateChampionship();
 
@@ -652,7 +632,7 @@ int main(int argc, char** argv){
     posvk1->loadPosition(karatekaCenterX-90, karatekaCenterY); //Load Karateka1 position in the arena into the PositionVector
     nextMatch->getKaratekaA()->setPosition(posvk1); // Set PositionVector into Karateka
     PositionVector* postemp = nextMatch->getKaratekaA()->getPositionVector(); // PositionVector Test
-    cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
+    //cout<<"Position of Karateka A:  X="<<postemp->x<<" Y="<<postemp->y<<endl; // Print Karateka 1 starting position on the arena
     int q = nextMatch->getKaratekaA()->getPositionVector()->x;
     posvk1->x = karatekaCenterX;
     posvk1->y = karatekaCenterY;
@@ -663,16 +643,15 @@ int main(int argc, char** argv){
     posvk2->loadPosition(karateka2CenterX+95, karateka2CenterY); 
     nextMatch->getKaratekaB()->setPosition(posvk2); 
     PositionVector* postempB = nextMatch->getKaratekaB()->getPositionVector(); 
-    cout<<"Position of Karateka B:  X="<<postempB->x<<" Y="<<postempB->y<<endl; 
+    //cout<<"Position of Karateka B:  X="<<postempB->x<<" Y="<<postempB->y<<endl; 
     
     nextMatch->getKaratekaB()->setArenaSide("right");
-    cout<<"Arena side = "<<nextMatch->getKaratekaB()->getArenaSide()<<endl;
     
 
     // Setting Match
 
     Match* match = nextMatch;
-    match->printMatchNames();
+    //match->printMatchNames();
     match->simulateMatch();
     match->getKaratekaA()->getMatchState()->setKaratekaPositionVector(posvk1);
     match->getKaratekaA()->getMatchState()->setOpponentPosition(posvk2);
@@ -681,30 +660,26 @@ int main(int argc, char** argv){
 
     State* matchState = match->getKaratekaA()->getMatchState();
 
-
-    //match->getKaratekaA()->getMatchState()->printState();
-
     
-    
-    uint64_t animationStartTime;     // Time when Yuko animation started
+    uint64_t animationStartTime;     // Time when animation starts
 
-    bool isYukoLeftAnimationPlaying = false;  // Flag to track animation state
+    bool isYukoLeftAnimationPlaying = false;  
 
-    bool isWazariLeftAnimationPlaying = false;  // Flag to track animation state
+    bool isWazariLeftAnimationPlaying = false;  
 
-    bool isIpponLeftAnimationPlaying = false;  // Flag to track animation state
+    bool isIpponLeftAnimationPlaying = false;  
 
-    bool isYukoRightAnimationPlaying = false;  // Flag to track animation state
+    bool isYukoRightAnimationPlaying = false;  
 
-    bool isIpponRightAnimationPlaying = false;  // Flag to track animation state
+    bool isIpponRightAnimationPlaying = false;  
 
-    bool isWazariRightAnimationPlaying = false;  // Flag to track animation state
+    bool isWazariRightAnimationPlaying = false;  
 
-    bool isWinningAnimationPlaying = false;  // Flag to track animation state
+    bool isWinningAnimationPlaying = false;  
 
-    bool isStartMatchAnimationPlaying = false; // Flag to track animation state
+    bool isStartMatchAnimationPlaying = false; 
 
-    bool isOiZukiAnimationPlaying = false; // Flag to track animation state
+    bool isOiZukiAnimationPlaying = false; 
 
     bool isPenaltyLeftAnimationPlaying = false;
 
@@ -722,7 +697,7 @@ int main(int argc, char** argv){
     Referee* referee = new Referee(match);
 
 
-     // Main loop
+    // Main loop
     bool running = true;
     while (running) {
         SDL_Event event;
@@ -1147,41 +1122,6 @@ int main(int argc, char** argv){
         string karateka1Action = match->getKaratekaA()->getDecision(rngA(false));
         string karateka2Action = match->getKaratekaB()->getDecision(rngB(false));
 
-        //cout<<"Karateka 1 Decision: "<<karateka1Action<<endl;
-        //cout<<"Karateka 2 Decision: "<<karateka2Action<<endl;
-
-        /*
-
-        // MANUAL CONTROLLERS
-        // Handle player input
-        const Uint8* state = SDL_GetKeyboardState(NULL); // Get keyboard state
-        isMovingRight = state[SDL_SCANCODE_RIGHT];
-        isMovingLeft = state[SDL_SCANCODE_LEFT];
-        isMovingUp = state[SDL_SCANCODE_UP];
-        isMovingDown = state[SDL_SCANCODE_DOWN];
-        
-        // Update karateka position based on movement flags
-        if (isMovingRight && !isMovingLeft) {
-            karatekaCenterX += 2;
-        } else if (isMovingLeft && !isMovingRight) {
-            karatekaCenterX -= 2;
-        }
-        if (isMovingUp && !isMovingDown) {
-            karatekaCenterY -= 2;
-        } else if (isMovingDown && !isMovingUp) {
-            karatekaCenterY += 2;
-        }
-
-        posvk1->x = karatekaCenterX-90;
-        posvk1->x = karatekaCenterX;
-        posvk1->y = karatekaCenterY;
-
-        match->getKaratekaA()->setPosition(posvk1);
-        
-        */
-
-        
-
 
 
         if (evaluateKaratekaAFirst) {
@@ -1266,7 +1206,7 @@ int main(int argc, char** argv){
 
 
 
-            if (karateka1Action == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
+            if (karateka1Action == "oi-zuki"){ 
 
             string result = match->getKaratekaA()->punch("oi-zuki");           
 
@@ -1275,13 +1215,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                    
                     
                 } else {
 
                     // Yuko Call
-                    cout<<"Yuko!"<<endl;
-
 
                     // Referee Call
                     
@@ -1300,7 +1238,6 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
 
                 }
 
@@ -1310,7 +1247,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaOiZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "kin-geri"){ // if(decisionMaker() == "kin-geri")
+        } else if (karateka1Action == "kin-geri"){ 
 
             string result = match->getKaratekaA()->punch("kin-geri");           
 
@@ -1324,8 +1261,6 @@ int main(int argc, char** argv){
                 } else {
 
                     // Yuko Call
-                    cout<<"Yuko!"<<endl;
-
 
                     // Referee Call
                     
@@ -1344,7 +1279,6 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
 
                 }
 
@@ -1354,7 +1288,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaKinGeriTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "ushiro-geri"){ // if(decisionMaker() == "ushiro-geri")
+        } else if (karateka1Action == "ushiro-geri"){ 
 
             string result = match->getKaratekaA()->punch("ushiro-geri");           
 
@@ -1363,12 +1297,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+
                     
                 } else {
 
-                    // Yuko Call
-                    cout<<"Wazari!"<<endl;
+                    // Wazari Call
 
 
                     // Referee Call
@@ -1398,7 +1331,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaUshiroGeriTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "ura-zuki"){ // if(decisionMaker() == "ura-zuki")
+        } else if (karateka1Action == "ura-zuki"){ 
 
             string result = match->getKaratekaA()->punch("ura-zuki");           
 
@@ -1407,12 +1340,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+
                     
                 } else {
 
                     // Yuko Call
-                    cout<<"Yuko!"<<endl;
 
 
                     // Referee Call
@@ -1432,7 +1364,6 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
 
                 }
 
@@ -1442,7 +1373,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaUraZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "heiko-zuki"){ // if(decisionMaker() == "heiko-zuki")
+        } else if (karateka1Action == "heiko-zuki"){ 
 
             string result = match->getKaratekaA()->punch("heiko-zuki");           
 
@@ -1451,12 +1382,10 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
                     
                 } else {
 
-                    // Yuko Call
-                    cout<<"Ippon!"<<endl;
+                    // Ippon Call
 
 
                     // Referee Call
@@ -1486,7 +1415,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaHeikoZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "mawashi-zuki"){ // if(decisionMaker() == "oi-zuki")
+        } else if (karateka1Action == "mawashi-zuki"){ 
 
             string result = match->getKaratekaA()->punch("mawashi-zuki");           
 
@@ -1495,12 +1424,10 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
                     
                 } else {
 
                     // Wazari Call
-                    cout<<"Wazari!"<<endl;
 
 
                     // Referee Call
@@ -1520,7 +1447,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+
 
                 }
 
@@ -1542,7 +1469,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Wazari Call
-                cout<<"Wazari!"<<endl;
 
                 
                 // Referee Call
@@ -1591,7 +1517,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
-                cout<<"Ippon!"<<endl;
 
                 // Referee Call
                     
@@ -1610,10 +1535,9 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             }
             
         } else if (karateka1Action == "gyaku-zuki"){
@@ -1628,8 +1552,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Yuko Call
-
-                cout<<"Yuko!"<<endl;
 
                 // Referee Call
                     
@@ -1649,14 +1571,14 @@ int main(int argc, char** argv){
                 //matchState->printState();
                 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             }
             
         } else {
 
             // Set KaratekaState
             match->getKaratekaA()->setMatchStateMovement("stand-up");
-            //match->getKaratekaA()->updateMatchState();
+
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
@@ -1672,7 +1594,7 @@ int main(int argc, char** argv){
 
             // Set KaratekaState
             match->getKaratekaA()->setMatchStateMovement("stand-up");
-            //match->getKaratekaA()->updateMatchState();
+
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
@@ -1765,7 +1687,7 @@ int main(int argc, char** argv){
             }
 
 
-        if (karateka2Action == "oi-zuki"){ //if(karateka2Action == "oi-zuki")
+        if (karateka2Action == "oi-zuki"){ 
 
             string result = match->getKaratekaB()->punch("oi-zuki"); 
 
@@ -1774,7 +1696,6 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -1788,17 +1709,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "kin-geri"){ //if(karateka2Action == "kin-geri")
+        } else if (karateka2Action == "kin-geri"){ 
 
             string result = match->getKaratekaB()->punch("kin-geri"); 
 
@@ -1807,7 +1728,7 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
+                
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -1821,17 +1742,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_KINGERI_WIDTH, KARATEKA_KINGERI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2KinGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "ushiro-geri"){ //if(karateka2Action == "ushiro-geri")
+        } else if (karateka2Action == "ushiro-geri"){ 
 
             string result = match->getKaratekaB()->punch("ushiro-geri"); 
 
@@ -1840,7 +1761,7 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Wazari!"<<endl;
+                
                 match->getKaratekaB()->setPoints("wazari");
 
                 // Start animation
@@ -1854,17 +1775,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_USHIROGERI_WIDTH, KARATEKA_USHIROGERI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2UshiroGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "ura-zuki"){ //if(karateka2Action == "ura-zuki")
+        } else if (karateka2Action == "ura-zuki"){ 
 
             string result = match->getKaratekaB()->punch("ura-zuki"); 
 
@@ -1873,7 +1794,7 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
+                
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -1887,17 +1808,16 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_URAZUKI_WIDTH, KARATEKA_URAZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2UraZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "heiko-zuki"){ //if(karateka2Action == "heiko-zuki")
+        } else if (karateka2Action == "heiko-zuki"){
 
             string result = match->getKaratekaB()->punch("heiko-zuki"); 
 
@@ -1906,7 +1826,6 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Ippon!"<<endl;
                 match->getKaratekaB()->setPoints("ippon");
 
                 // Start animation
@@ -1920,17 +1839,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_HEIKOZUKI_WIDTH, KARATEKA_HEIKOZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2HeikoZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "mawashi-zuki"){ // if(decisionMaker() == "oi-zuki")
+        } else if (karateka2Action == "mawashi-zuki"){ 
 
             string result = match->getKaratekaB()->punch("mawashi-zuki");           
 
@@ -1939,13 +1858,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+
                     
                 } else {
 
                     // Wazari Call
-                    cout<<"Wazari!"<<endl;
-
 
                     // Referee Call
                     
@@ -1964,7 +1881,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                    
 
                 }
 
@@ -1974,7 +1891,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2MawashiZukiTexture, NULL, &karatekaRect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "gyaku-zuki"){ //(match->getKaratekaB()->punch("gyaku-zuki") == "gyaku-zuki"
+        } else if (karateka2Action == "gyaku-zuki"){ 
 
             string result = match->getKaratekaB()->punch("gyaku-zuki"); 
 
@@ -1986,7 +1903,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
-                cout<<"Yuko!"<<endl;
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -2000,13 +1916,13 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             }
             
-        } else if (karateka2Action == "block"){ //karateka2Action == "block"
+        } else if (karateka2Action == "block"){ 
 
             string result = match->getKaratekaB()->block();
 
@@ -2016,7 +1932,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "yoko-geri"){ // YOKO GERI // (match->getKaratekaB()->kick("yoko-geri") == "yoko-geri"
+        } else if (karateka2Action == "yoko-geri"){ 
 
             string result = match->getKaratekaB()->kick("yoko-geri");           
 
@@ -2028,7 +1944,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
-                cout<<"Ippon!"<<endl;
 
                 // Referee Call
                     
@@ -2053,7 +1968,7 @@ int main(int argc, char** argv){
                 //cout<<"Attack Blocked!"<<endl;
             }
             
-        } else if (karateka2Action == "mae-geri"){ // MAE GERI
+        } else if (karateka2Action == "mae-geri"){ 
 
             string result = match->getKaratekaB()->kick("mae-geri");
 
@@ -2064,8 +1979,8 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
-                // Ippon Call
-                cout<<"Wazari!"<<endl;
+
+                // Wazari Call
 
                 // Referee Call
                     
@@ -2087,7 +2002,7 @@ int main(int argc, char** argv){
                 //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             }
             
         } else {
@@ -2196,7 +2111,7 @@ int main(int argc, char** argv){
             }
 
 
-        if (karateka2Action == "oi-zuki"){ //if(karateka2Action == "oi-zuki")
+        if (karateka2Action == "oi-zuki"){
 
             string result = match->getKaratekaB()->punch("oi-zuki"); 
 
@@ -2205,7 +2120,6 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -2219,17 +2133,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_OIZUKI_WIDTH, KARATEKA_OIZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2OiZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "kin-geri"){ //if(karateka2Action == "kin-geri")
+        } else if (karateka2Action == "kin-geri"){ 
 
             string result = match->getKaratekaB()->punch("kin-geri"); 
 
@@ -2238,7 +2152,6 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -2252,17 +2165,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_KINGERI_WIDTH, KARATEKA_KINGERI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2KinGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "ushiro-geri"){ //if(karateka2Action == "ushiro-geri")
+        } else if (karateka2Action == "ushiro-geri"){ 
 
             string result = match->getKaratekaB()->punch("ushiro-geri"); 
 
@@ -2270,8 +2183,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
-                
-                cout<<"Wazari!"<<endl;
                 match->getKaratekaB()->setPoints("wazari");
 
                 // Start animation
@@ -2285,17 +2196,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_USHIROGERI_WIDTH, KARATEKA_USHIROGERI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2UshiroGeriTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "ura-zuki"){ //if(karateka2Action == "ura-zuki")
+        } else if (karateka2Action == "ura-zuki"){ 
 
             string result = match->getKaratekaB()->punch("ura-zuki"); 
 
@@ -2304,7 +2215,7 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Yuko!"<<endl;
+                
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -2318,17 +2229,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_URAZUKI_WIDTH, KARATEKA_URAZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2UraZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "heiko-zuki"){ //if(karateka2Action == "heiko-zuki")
+        } else if (karateka2Action == "heiko-zuki"){ 
 
             string result = match->getKaratekaB()->punch("heiko-zuki"); 
 
@@ -2337,7 +2248,7 @@ int main(int argc, char** argv){
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
                 
-                cout<<"Ippon!"<<endl;
+                
                 match->getKaratekaB()->setPoints("ippon");
 
                 // Start animation
@@ -2351,17 +2262,17 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             } 
 
             karateka2Rect = {match->getKaratekaB()->getPositionVector()->x, match->getKaratekaB()->getPositionVector()->y, KARATEKA_HEIKOZUKI_WIDTH, KARATEKA_HEIKOZUKI_HEIGHT}; 
 
             SDL_RenderCopyEx(renderer, karateka2HeikoZukiTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "mawashi-zuki"){ // if(decisionMaker() == "oi-zuki")
+        } else if (karateka2Action == "mawashi-zuki"){ 
 
             string result = match->getKaratekaB()->punch("mawashi-zuki");           
 
@@ -2370,12 +2281,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                    
                     
                 } else {
 
                     // Wazari Call
-                    cout<<"Wazari!"<<endl;
 
 
                     // Referee Call
@@ -2395,7 +2305,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                    
 
                 }
 
@@ -2405,7 +2315,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2MawashiZukiTexture, NULL, &karatekaRect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "gyaku-zuki"){ //(match->getKaratekaB()->punch("gyaku-zuki") == "gyaku-zuki"
+        } else if (karateka2Action == "gyaku-zuki"){ 
 
             string result = match->getKaratekaB()->punch("gyaku-zuki"); 
 
@@ -2417,7 +2327,7 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
 
-                cout<<"Yuko!"<<endl;
+                
                 match->getKaratekaB()->setPoints("yuko");
 
                 // Start animation
@@ -2431,13 +2341,13 @@ int main(int argc, char** argv){
                 karatekaCenterY = match->getKaratekaA()->getPositionVector()->y;
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+               
             }
             
-        } else if (karateka2Action == "block"){ //karateka2Action == "block"
+        } else if (karateka2Action == "block"){ 
 
             string result = match->getKaratekaB()->block();
 
@@ -2447,7 +2357,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karateka2AgeUkeTexture, NULL, &karateka2Rect, match->getKaratekaB()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka2Action == "yoko-geri"){ // YOKO GERI // (match->getKaratekaB()->kick("yoko-geri") == "yoko-geri"
+        } else if (karateka2Action == "yoko-geri"){ 
 
             string result = match->getKaratekaB()->kick("yoko-geri");           
 
@@ -2459,7 +2369,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
-                cout<<"Ippon!"<<endl;
 
                 // Referee Call
                     
@@ -2478,13 +2387,13 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             }
             
-        } else if (karateka2Action == "mae-geri"){ // MAE GERI
+        } else if (karateka2Action == "mae-geri"){ 
 
             string result = match->getKaratekaB()->kick("mae-geri");
 
@@ -2495,8 +2404,7 @@ int main(int argc, char** argv){
             bool areKaratekasColliding = match->getKaratekaB()->checkCollision(karatekaRect, karateka2Rect);
 
             if (areKaratekasColliding && match->getKaratekaA()->getMatchState()->getKaratekaMovement() != "block"){
-                // Ippon Call
-                cout<<"Wazari!"<<endl;
+                // Wazari Call
 
                 // Referee Call
                     
@@ -2515,10 +2423,10 @@ int main(int argc, char** argv){
 
                 match->getKaratekaB()->updateMatchState();
                 match->getKaratekaA()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             }
             
         } else {
@@ -2619,7 +2527,7 @@ int main(int argc, char** argv){
 
 
 
-        if (karateka1Action == "oi-zuki"){ // if(decisionMaker() == "oi-zuki")
+        if (karateka1Action == "oi-zuki"){ 
 
             string result = match->getKaratekaA()->punch("oi-zuki");           
 
@@ -2628,13 +2536,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                    
                     
                 } else {
 
-                    // Yuko Call
-                    cout<<"Yuko!"<<endl;
-
+                    // Yuko Call           
 
                     // Referee Call
                     
@@ -2653,7 +2559,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                    
 
                 }
 
@@ -2663,7 +2569,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaOiZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "kin-geri"){ // if(decisionMaker() == "kin-geri")
+        } else if (karateka1Action == "kin-geri"){ 
 
             string result = match->getKaratekaA()->punch("kin-geri");           
 
@@ -2672,14 +2578,12 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                    
                     
                 } else {
 
                     // Yuko Call
-                    cout<<"Yuko!"<<endl;
-
-
+                    
                     // Referee Call
                     
                     // Start animation
@@ -2697,7 +2601,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                   
 
                 }
 
@@ -2707,7 +2611,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaKinGeriTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "ushiro-geri"){ // if(decisionMaker() == "ushiro-geri")
+        } else if (karateka1Action == "ushiro-geri"){ 
 
             string result = match->getKaratekaA()->punch("ushiro-geri");           
 
@@ -2720,9 +2624,7 @@ int main(int argc, char** argv){
                     
                 } else {
 
-                    // Yuko Call
-                    cout<<"Wazari!"<<endl;
-
+                    // Wazari Call
 
                     // Referee Call
                     
@@ -2741,7 +2643,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                   
 
                 }
 
@@ -2751,7 +2653,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaUshiroGeriTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "ura-zuki"){ // if(decisionMaker() == "ura-zuki")
+        } else if (karateka1Action == "ura-zuki"){ 
 
             string result = match->getKaratekaA()->punch("ura-zuki");           
 
@@ -2760,13 +2662,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                   
                     
                 } else {
 
                     // Yuko Call
-                    cout<<"Yuko!"<<endl;
-
 
                     // Referee Call
                     
@@ -2785,7 +2685,7 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
+                    
 
                 }
 
@@ -2795,7 +2695,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaUraZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "heiko-zuki"){ // if(decisionMaker() == "heiko-zuki")
+        } else if (karateka1Action == "heiko-zuki"){ 
 
             string result = match->getKaratekaA()->punch("heiko-zuki");           
 
@@ -2804,13 +2704,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+                    
                     
                 } else {
 
-                    // Yuko Call
-                    cout<<"Ippon!"<<endl;
-
+                    // Ippon Call
 
                     // Referee Call
                     
@@ -2829,7 +2727,6 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
 
                 }
 
@@ -2839,7 +2736,7 @@ int main(int argc, char** argv){
 
             SDL_RenderCopyEx(renderer, karatekaHeikoZukiTexture, NULL, &karatekaRect, match->getKaratekaA()->getRotationAngle(), NULL, SDL_FLIP_NONE);
             
-        } else if (karateka1Action == "mawashi-zuki"){ // if(decisionMaker() == "oi-zuki")
+        } else if (karateka1Action == "mawashi-zuki"){ 
 
             string result = match->getKaratekaA()->punch("mawashi-zuki");           
 
@@ -2848,12 +2745,11 @@ int main(int argc, char** argv){
             if (areKaratekasColliding){
                 
                 if (match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                    //cout<<"Attack Blocked!"<<endl;
+
                     
                 } else {
 
                     // Wazari Call
-                    cout<<"Wazari!"<<endl;
 
 
                     // Referee Call
@@ -2873,7 +2769,6 @@ int main(int argc, char** argv){
 
                     match->getKaratekaA()->updateMatchState();
                     match->getKaratekaB()->updateMatchState();
-                    //matchState->printState();
 
                 }
 
@@ -2895,8 +2790,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Wazari Call
-                cout<<"Wazari!"<<endl;
-
                 
                 // Referee Call
                     
@@ -2918,7 +2811,7 @@ int main(int argc, char** argv){
                 //matchState->printState();
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+
             }
             
         } else if (karateka1Action == "block"){
@@ -2944,7 +2837,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Ippon Call
-                cout<<"Ippon!"<<endl;
 
                 // Referee Call
                     
@@ -2963,10 +2855,10 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                //matchState->printState();
+                
 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
+                
             }
             
         } else if (karateka1Action == "gyaku-zuki"){
@@ -2981,8 +2873,6 @@ int main(int argc, char** argv){
 
             if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() != "block"){
                 // Yuko Call
-
-                cout<<"Yuko!"<<endl;
 
                 // Referee Call
                     
@@ -2999,17 +2889,14 @@ int main(int argc, char** argv){
 
                 match->getKaratekaA()->updateMatchState();
                 match->getKaratekaB()->updateMatchState();
-                //matchState->printState();
                 
             } else if (areKaratekasColliding && match->getKaratekaB()->getMatchState()->getKaratekaMovement() == "block"){
-                //cout<<"Attack Blocked!"<<endl;
             }
             
         } else {
 
             // Set KaratekaState
             match->getKaratekaA()->setMatchStateMovement("stand-up");
-            //match->getKaratekaA()->updateMatchState();
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
@@ -3025,7 +2912,6 @@ int main(int argc, char** argv){
 
             // Set KaratekaState
             match->getKaratekaA()->setMatchStateMovement("stand-up");
-            //match->getKaratekaA()->updateMatchState();
 
             karatekaRect = {match->getKaratekaA()->getPositionVector()->x, match->getKaratekaA()->getPositionVector()->y, KARATEKA_BASIC_WIDTH, KARATEKA_BASIC_HEIGHT}; 
 
@@ -3055,12 +2941,12 @@ int main(int argc, char** argv){
             match->getKaratekaB()->updateMatchState();
 
             if(penalty == match->getKaratekaA()){
-                cout<<"Penalty Commited by Karateka A!"<<endl;
+                
                 isPenaltyLeftAnimationPlaying = true;
                 wait = true;
                 animationStartTime = SDL_GetPerformanceCounter();
             } else if (penalty == match->getKaratekaB()){
-                cout<<"Penalty Commited by Karateka B!"<<endl;
+                
                 isPenaltyRightAnimationPlaying = true;
                 wait = true;
                 animationStartTime = SDL_GetPerformanceCounter();
