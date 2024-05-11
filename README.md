@@ -15,6 +15,7 @@ The Karate Championship Simulator is a program designed to simulate karate match
 ## Installation
 
 1.  Clone the repository:
+
 `git clone https://github.com/yourusername/karate-match-simulator.git` 
 
 2.  Compile the source code:
