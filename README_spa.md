@@ -49,8 +49,8 @@ Este proyecto está bajo la Licencia MIT - Consulta el archivo LICENSE para más
 
 ## Créditos
 
--   Creado por [Tu Nombre]
--   Inspirado por [Fuente de Inspiración, si la hay]
+-   Creado por Alexis Wong
+-   Inspirado por Clase de PR2.
 
 ## Contacto
 
